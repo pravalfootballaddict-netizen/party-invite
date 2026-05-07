@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- WhatsApp & Social Media Preview Tags -->
     <meta property="og:title" content="OPERATION: GENERAL HAPPINESS">
     <meta property="og:description" content="[ACCESS KEY REQUIRED] Verify your vibe to reveal the details.">
-    <meta property="og:image" content="https://pravalfootballaddict-netizen.github.io/party-invite/hero.jpeg">
-    <meta property="og:url" content="https://pravalfootballaddict-netizen.github.io/party-invite/">
+    <meta property="og:image" content="https://pravalfootballaddict-netizen.github.io/party-invite/hero.jpg">
+    <meta property="og:url" content="https://praval.footballaddict-netizen.github.io/party-invite/">
     <meta property="og:type" content="website">
 
     <title>Operation: General Happiness</title>
@@ -28,7 +28,7 @@
             background-color: var(--bg);
             color: var(--text);
             font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden;
+            overflow: hidden;
             display: flex; justify-content: center; align-items: center;
         }
 
@@ -53,7 +53,7 @@
             color: var(--text); padding: 12px 20px;
             cursor: pointer; transition: 0.3s; margin: 8px;
             font-family: 'Bebas Neue'; font-size: 1.2rem;
-            width: 80%;
+            width: 85%;
         }
 
         .btn:hover { background: var(--secondary); color: black; border-color: var(--secondary); box-shadow: 0 0 15px var(--secondary); }
@@ -66,20 +66,23 @@
             width: 100%; height: 100vh;
             flex-direction: column; justify-content: center; align-items: center;
             padding: 20px; box-sizing: border-box;
+            animation: fadeIn 1s;
         }
 
-        .details-box { border-left: 5px solid var(--accent); padding-left: 20px; text-align: left; max-width: 300px; }
+        .details-box { border-left: 5px solid var(--accent); padding-left: 20px; text-align: left; max-width: 320px; }
         .details-box p { margin: 10px 0; font-size: 1.1rem; }
         .quote { font-style: italic; color: var(--secondary); margin-top: 25px; font-size: 0.9rem; max-width: 80%; }
         
-        .icon-link { font-size: 2.5rem; color: var(--secondary); text-decoration: none; margin-top: 10px; display: inline-block; transition: 0.3s; }
+        .icon-link { font-size: 3rem; color: var(--secondary); text-decoration: none; margin-top: 10px; display: inline-block; transition: 0.3s; cursor: pointer; }
         .icon-link:hover { transform: scale(1.2); color: var(--accent); }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    </style> 
+    </style>
 </head>
 <body>
-   <audio id="bgMusic" loop src="vibe.mp3"></audio>
+
+    <audio id="bgMusic" loop src="vibe.mp3"></audio>
+
     <!-- STAGE 1: THE CAPTCHAS -->
     <div id="game-container">
         <div id="step-1" class="captcha-step active">
@@ -94,7 +97,7 @@
             <h1>VIBE CHECK 02</h1>
             <p>What is your primary protocol for the night?</p>
             <button class="btn" onclick="nextStep(2)">Relax & Open Up</button>
-            <button class="btn" onclick="alert('Error: No MC detected.')">Wait for the MC</button>
+            <button class="btn" onclick="alert('Access Denied: No MCs allowed.')">Acting as MC</button>
         </div>
 
         <div id="step-3" class="captcha-step">
@@ -106,37 +109,32 @@
 
     <!-- STAGE 2: THE FINAL INVITE -->
     <div id="final-invite">
-        <h1 style="font-size: 4rem; color: var(--accent);">YOU'RE IN.</h1>
+        <h1 style="font-size: 3.5rem; color: var(--accent); margin-bottom: 20px;">YOU'RE IN.</h1>
         <div class="details-box">
             <p><strong>OCCASION:</strong> General Happiness</p>
             <p><strong>WHERE:</strong> Spectres Officers Mess Bar 
-    <a href="https://maps.app.goo.gl/n6G44bKvQP533tvL7?g_st=iw" 
-       target="_blank" 
-       class="icon-link" 
-       onclick="document.getElementById('bgMusic').play();">🌐</a>
-</p>
+                <a href="https://maps.app.goo.gl/n6G44bKvQP533tvL7?g_st=iw" target="_blank" class="icon-link" onclick="document.getElementById('bgMusic').play();">🌐</a>
+            </p>
             <p><strong>WHEN:</strong> 1930 Hours Onwards</p>
             <p><strong>DRESS:</strong> Comfort Wear</p>
         </div>
         
-        <button class="btn" onclick="window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=General+Happiness+at+Spectres&dates=20260515T193000Z/20260515T233000Z&details=No+MC.+Just+Cocktails.+Relax+and+enjoy.&location=Spectres+Officers+Mess+Bar')">Set Reminder 📅</button>
+        <button class="btn" style="width: auto; margin-top: 20px;" onclick="window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=General+Happiness+at+Spectres&dates=20260515T193000Z/20260515T233000Z&details=No+MC.+Just+Cocktails.+Relax+and+enjoy.&location=Spectres+Officers+Mess+Bar')">Set Reminder 📅</button>
 
         <p class="quote">"I'd rather do nothing and be happy than do something I don't love."</p>
-        <p style="font-size: 0.7rem; letter-spacing: 3px; margin-top: 30px;">[ NO MC • NO AGENDA • JUST DRINKS ]</p>
+        <p style="font-size: 0.7rem; letter-spacing: 3px; margin-top: 30px; opacity: 0.7;">[ NO MC • NO AGENDA • JUST VIBES ]</p>
     </div>
 
     <script>
-       function reveal() {
-    // 1. Hide the game and show the invite
-    document.getElementById('game-container').style.display = 'none';
-    document.getElementById('final-invite').style.display = 'flex';
-    
-    // 2. Start the music
-    var music = document.getElementById('bgMusic');
-    music.play().catch(function(error) {
-        console.log("Browser blocked autoplay. Music will play on next click.");
-    });
-}
+        function nextStep(current) {
+            document.getElementById('step-' + current).classList.remove('active');
+            document.getElementById('step-' + (current + 1)).classList.add('active');
+        }
+
+        function reveal() {
+            document.getElementById('game-container').style.display = 'none';
+            document.getElementById('final-invite').style.display = 'flex';
+        }
     </script>
 </body>
 </html>
