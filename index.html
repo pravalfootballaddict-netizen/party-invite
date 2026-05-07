@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta property="og:image" content="https://praval.footballaddict-netizen.github.io/party-invite/hero.jpg">
-    <meta property="og:title" content="OPERATION: GENERAL HAPPINESS">
-    <meta charset="UTF-8">
+   <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- WhatsApp & Social Media Preview Tags -->
+    <meta property="og:title" content="OPERATION: GENERAL HAPPINESS">
+    <meta property="og:description" content="[ACCESS KEY REQUIRED] Verify your vibe to reveal the details.">
+    <meta property="og:image" content="https://pravalfootballaddict-netizen.github.io/party-invite/hero.jpg">
+    <meta property="og:url" content="https://pravalfootballaddict-netizen.github.io/party-invite/">
+    <meta property="og:type" content="website">
+
     <title>Operation: General Happiness</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --bg: #0a0a0a;
@@ -20,7 +28,7 @@
             background-color: var(--bg);
             color: var(--text);
             font-family: 'Montserrat', sans-serif;
-            overflow: hidden;
+            overflow-x: hidden;
             display: flex; justify-content: center; align-items: center;
         }
 
@@ -31,38 +39,44 @@
             padding: 30px; border-radius: 10px;
             background: rgba(255, 0, 255, 0.05);
             box-shadow: 0 0 20px var(--accent);
+            z-index: 10;
         }
 
         .captcha-step { display: none; }
         .captcha-step.active { display: block; animation: fadeIn 0.5s; }
 
-        h1 { font-family: 'Bebas Neue', cursive; font-size: 2.5rem; letter-spacing: 2px; color: var(--secondary); }
-        p { font-size: 0.9rem; margin-bottom: 20px; }
+        h1 { font-family: 'Bebas Neue', cursive; font-size: 2.5rem; letter-spacing: 2px; color: var(--secondary); margin-bottom: 10px; }
+        p { font-size: 0.9rem; margin-bottom: 20px; line-height: 1.5; }
 
         .btn {
             background: transparent; border: 1px solid var(--text);
-            color: var(--text); padding: 10px 20px;
-            cursor: pointer; transition: 0.3s; margin: 5px;
+            color: var(--text); padding: 12px 20px;
+            cursor: pointer; transition: 0.3s; margin: 8px;
             font-family: 'Bebas Neue'; font-size: 1.2rem;
+            width: 80%;
         }
 
-        .btn:hover { background: var(--secondary); color: black; border-color: var(--secondary); }
+        .btn:hover { background: var(--secondary); color: black; border-color: var(--secondary); box-shadow: 0 0 15px var(--secondary); }
 
         /* --- Final Reveal Style --- */
         #final-invite {
             display: none; text-align: center; 
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('your-image-here.jpg');
-            background-size: cover; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('hero.jpg');
+            background-size: cover; background-position: center;
+            width: 100%; height: 100vh;
             flex-direction: column; justify-content: center; align-items: center;
+            padding: 20px; box-sizing: border-box;
         }
 
-        .details-box { border-left: 5px solid var(--accent); padding-left: 20px; text-align: left; }
-        .quote { font-style: italic; color: var(--secondary); margin-top: 20px; font-size: 0.8rem; }
+        .details-box { border-left: 5px solid var(--accent); padding-left: 20px; text-align: left; max-width: 300px; }
+        .details-box p { margin: 10px 0; font-size: 1.1rem; }
+        .quote { font-style: italic; color: var(--secondary); margin-top: 25px; font-size: 0.9rem; max-width: 80%; }
         
-        .icon-link { font-size: 2rem; color: var(--secondary); text-decoration: none; margin-top: 10px; display: inline-block; }
+        .icon-link { font-size: 2.5rem; color: var(--secondary); text-decoration: none; margin-top: 10px; display: inline-block; transition: 0.3s; }
+        .icon-link:hover { transform: scale(1.2); color: var(--accent); }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    </style>
+    </style> 
 </head>
 <body>
 
