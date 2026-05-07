@@ -79,7 +79,7 @@
     </style> 
 </head>
 <body>
-
+   <audio id="bgMusic" loop src="vibe.mp3"></audio>
     <!-- STAGE 1: THE CAPTCHAS -->
     <div id="game-container">
         <div id="step-1" class="captcha-step active">
@@ -123,16 +123,17 @@
     </div>
 
     <script>
-        function nextStep(current) {
-            document.getElementById('step-' + current).classList.remove('active');
-            document.getElementById('step-' + (current + 1)).classList.add('active');
-        }
-
-        function reveal() {
-            document.getElementById('game-container').style.display = 'none';
-            document.getElementById('final-invite').style.display = 'flex';
-            // Logic to play music would go here
-        }
+       function reveal() {
+    // 1. Hide the game and show the invite
+    document.getElementById('game-container').style.display = 'none';
+    document.getElementById('final-invite').style.display = 'flex';
+    
+    // 2. Start the music
+    var music = document.getElementById('bgMusic');
+    music.play().catch(function(error) {
+        console.log("Browser blocked autoplay. Music will play on next click.");
+    });
+}
     </script>
 </body>
 </html>
