@@ -4,136 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- WhatsApp & Social Media Preview Tags -->
+    <!-- WhatsApp Preview -->
     <meta property="og:title" content="OPERATION: GENERAL HAPPINESS">
-    <meta property="og:description" content="[ACCESS KEY REQUIRED] Verify your vibe to reveal the details.">
+    <meta property="og:description" content="[ACCESS KEY REQUIRED] Verify your vibe.">
     <meta property="og:image" content="https://pravalfootballaddict-netizen.github.io/party-invite/hero.jpg">
-    <meta property="og:url" content="https://praval.footballaddict-netizen.github.io/party-invite/">
+    <meta property="og:url" content="https://pravalfootballaddict-netizen.github.io/party-invite/">
     <meta property="og:type" content="website">
 
     <title>Operation: General Happiness</title>
-    
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;700&display=swap" rel="stylesheet">
     
     <style>
-        :root {
-            --bg: #0a0a0a;
-            --accent: #ff00ff; /* Neon Magenta */
-            --secondary: #00f2ff; /* Electric Cyan */
-            --text: #ffffff;
-        }
-
-        body, html {
-            margin: 0; padding: 0; height: 100%;
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Montserrat', sans-serif;
-            overflow: hidden;
-            display: flex; justify-content: center; align-items: center;
-        }
-
-        /* --- Terminal / Captcha Style --- */
-        #game-container {
-            width: 90%; max-width: 400px;
-            text-align: center; border: 2px solid var(--accent);
-            padding: 30px; border-radius: 10px;
-            background: rgba(255, 0, 255, 0.05);
-            box-shadow: 0 0 20px var(--accent);
-            z-index: 10;
-        }
-
+        :root { --bg: #0a0a0a; --accent: #ff00ff; --secondary: #00f2ff; --text: #ffffff; }
+        body, html { margin: 0; padding: 0; height: 100%; background-color: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        #game-container { width: 90%; max-width: 400px; text-align: center; border: 2px solid var(--accent); padding: 30px; border-radius: 10px; background: rgba(255, 0, 255, 0.05); box-shadow: 0 0 20px var(--accent); }
         .captcha-step { display: none; }
-        .captcha-step.active { display: block; animation: fadeIn 0.5s; }
-
-        h1 { font-family: 'Bebas Neue', cursive; font-size: 2.5rem; letter-spacing: 2px; color: var(--secondary); margin-bottom: 10px; }
-        p { font-size: 0.9rem; margin-bottom: 20px; line-height: 1.5; }
-
-        .btn {
-            background: transparent; border: 1px solid var(--text);
-            color: var(--text); padding: 12px 20px;
-            cursor: pointer; transition: 0.3s; margin: 8px;
-            font-family: 'Bebas Neue'; font-size: 1.2rem;
-            width: 85%;
-        }
-
-        .btn:hover { background: var(--secondary); color: black; border-color: var(--secondary); box-shadow: 0 0 15px var(--secondary); }
-
-        /* --- Final Reveal Style --- */
-        #final-invite {
-            display: none; text-align: center; 
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('hero.jpg');
-            background-size: cover; background-position: center;
-            width: 100%; height: 100vh;
-            flex-direction: column; justify-content: center; align-items: center;
-            padding: 20px; box-sizing: border-box;
-            animation: fadeIn 1s;
-        }
-
-        .details-box { border-left: 5px solid var(--accent); padding-left: 20px; text-align: left; max-width: 320px; }
-        .details-box p { margin: 10px 0; font-size: 1.1rem; }
-        .quote { font-style: italic; color: var(--secondary); margin-top: 25px; font-size: 0.9rem; max-width: 80%; }
-        
-        .icon-link { font-size: 3rem; color: var(--secondary); text-decoration: none; margin-top: 10px; display: inline-block; transition: 0.3s; cursor: pointer; }
-        .icon-link:hover { transform: scale(1.2); color: var(--accent); }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .captcha-step.active { display: block; }
+        h1 { font-family: 'Bebas Neue', cursive; font-size: 2.5rem; color: var(--secondary); margin-bottom: 10px; }
+        .btn { background: transparent; border: 1px solid var(--text); color: var(--text); padding: 12px 20px; cursor: pointer; margin: 8px; font-family: 'Bebas Neue'; font-size: 1.2rem; width: 85%; }
+        .btn:hover { background: var(--secondary); color: black; border-color: var(--secondary); }
+        #final-invite { display: none; text-align: center; background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('hero.jpg'); background-size: cover; width: 100%; height: 100vh; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
+        .details-box { border-left: 5px solid var(--accent); padding-left: 20px; text-align: left; }
+        .icon-link { font-size: 3rem; color: var(--secondary); text-decoration: none; margin-top: 10px; display: inline-block; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <audio id="bgMusic" loop src="vibe.mp3"></audio>
 
-    <!-- STAGE 1: THE CAPTCHAS -->
     <div id="game-container">
+        <!-- Step 1 -->
         <div id="step-1" class="captcha-step active">
             <h1>VIBE CHECK 01</h1>
             <p>Select the object required for "General Happiness":</p>
-            <button class="btn" onclick="alert('Wrong. That leads to a meeting.')">Unread Emails</button>
-            <button class="btn" onclick="nextStep(1)">A Cold Glass</button>
-            <button class="btn" onclick="alert('Too much work.')">Gym Membership</button>
+            <button class="btn" onclick="alert('Wrong protocol.')">Unread Emails</button>
+            <button class="btn" onclick="goToStep2()">A Cold Glass</button>
         </div>
 
+        <!-- Step 2 -->
         <div id="step-2" class="captcha-step">
             <h1>VIBE CHECK 02</h1>
-            <p>What is your primary protocol for the night?</p>
-            <button class="btn" onclick="nextStep(2)">Relax & Open Up</button>
-            <button class="btn" onclick="alert('Access Denied: No MCs allowed.')">Acting as MC</button>
+            <p>Protocol for the night?</p>
+            <button class="btn" onclick="goToStep3()">Relax & Open Up</button>
+            <button class="btn" onclick="alert('No MCs allowed.')">Acting as MC</button>
         </div>
 
+        <!-- Step 3 -->
         <div id="step-3" class="captcha-step">
             <h1>VIBE CHECK 03</h1>
-            <p>"Life moves pretty fast. If you don't stop and look around once in a while..."</p>
-            <button class="btn" onclick="reveal()">"...You could miss it."</button>
+            <p>"Life moves pretty fast..."</p>
+            <button class="btn" onclick="showInvite()">"...You could miss it."</button>
         </div>
     </div>
 
-    <!-- STAGE 2: THE FINAL INVITE -->
     <div id="final-invite">
-        <h1 style="font-size: 3.5rem; color: var(--accent); margin-bottom: 20px;">YOU'RE IN.</h1>
+        <h1 style="font-size: 3.5rem; color: var(--accent);">YOU'RE IN.</h1>
         <div class="details-box">
-            <p><strong>OCCASION:</strong> General Happiness</p>
             <p><strong>WHERE:</strong> Spectres Officers Mess Bar 
-                <a href="https://maps.app.goo.gl/n6G44bKvQP533tvL7?g_st=iw" target="_blank" class="icon-link" onclick="document.getElementById('bgMusic').play();">🌐</a>
+                <a href="https://maps.app.goo.gl/n6G44bKvQP533tvL7?g_st=iw" target="_blank" class="icon-link" onclick="playVibe()">🌐</a>
             </p>
             <p><strong>WHEN:</strong> 1930 Hours Onwards</p>
             <p><strong>DRESS:</strong> Comfort Wear</p>
         </div>
-        
-        <button class="btn" style="width: auto; margin-top: 20px;" onclick="window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=General+Happiness+at+Spectres&dates=20260515T193000Z/20260515T233000Z&details=No+MC.+Just+Cocktails.+Relax+and+enjoy.&location=Spectres+Officers+Mess+Bar')">Set Reminder 📅</button>
-
-        <p class="quote">"I'd rather do nothing and be happy than do something I don't love."</p>
-        <p style="font-size: 0.7rem; letter-spacing: 3px; margin-top: 30px; opacity: 0.7;">[ NO MC • NO AGENDA • JUST VIBES ]</p>
+        <button class="btn" style="width: auto;" onclick="window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=General+Happiness+at+Spectres&dates=20260515T193000Z/20260515T233000Z&details=No+MC.+Just+Cocktails.&location=Spectres+Officers+Mess+Bar')">Set Reminder 📅</button>
     </div>
 
     <script>
-        function nextStep(current) {
-            document.getElementById('step-' + current).classList.remove('active');
-            document.getElementById('step-' + (current + 1)).classList.add('active');
+        function goToStep2() {
+            document.getElementById('step-1').style.display = 'none';
+            document.getElementById('step-2').style.display = 'block';
         }
 
-        function reveal() {
+        function goToStep3() {
+            document.getElementById('step-2').style.display = 'none';
+            document.getElementById('step-3').style.display = 'block';
+        }
+
+        function showInvite() {
             document.getElementById('game-container').style.display = 'none';
             document.getElementById('final-invite').style.display = 'flex';
+        }
+
+        function playVibe() {
+            var audio = document.getElementById('bgMusic');
+            audio.play();
         }
     </script>
 </body>
