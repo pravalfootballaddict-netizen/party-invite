@@ -357,16 +357,15 @@
             torchTrackingActive = false; 
             promptText.style.display = "none";
 
-            // When the 5-second hold finishes, the music is unmuted and played automatically
-            audioTrack.muted = false;
-            audioTrack.play().catch(e => {
-                // If a picky mobile browser blocks it, it will gracefully wait for them to click the speaker button
-                console.log("Autoplay context initialization deferred.");
-            });
-            isAudioMuted = false;
-            audioWidget.innerText = "🔊";
+                            // Keep the track strictly muted by default to honor browser security and user preference
+                audioTrack.muted = true; 
+                audioTrack.play().catch(e => console.log("Audio track queued in background."));
+        
+                // Keep the state machine and the button icon perfectly synced to MUTED
+                isAudioMuted = true;
+                audioWidget.innerText = "🔇";
 
-            let flashRadius = 105;
+            let flashRadius = 115;
             const detonationInterval = setInterval(() => {
                 flashRadius += 45; 
                 const expandedStyle = `radial-gradient(circle ${flashRadius}px at ${centerX}px ${centerY}px, transparent 100%, #000000 100%)`;
