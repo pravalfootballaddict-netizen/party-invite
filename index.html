@@ -2,115 +2,359 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <!-- WhatsApp Preview -->
-    <meta property="og:title" content="OPERATION: GENERAL HAPPINESS">
-    <meta property="og:description" content="[ACCESS KEY REQUIRED] Verify your vibe.">
-    <meta property="og:image" content="https://pravalfootballaddict-netizen.github.io/party-invite/hero.jpeg">
-    <meta property="og:url" content="https://pravalfootballaddict-netizen.github.io/party-invite/">
+    <!-- WhatsApp Preview Meta Tags -->
+    <meta property="og:title" content="GLOW IN THE WILD">
+    <meta property="og:description" content="[SECURE ACCESS] A Loving Farewell to Spectre One.">
+    <meta property="og:image" content="https://operation-happiness.com/thumbnail.jpg"> <!-- Change or keep masked -->
+    <meta property="og:url" content="https://operation-happiness.com">
     <meta property="og:type" content="website">
 
-    <title>Operation: General Happiness</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;700&display=swap" rel="stylesheet">
+    <title>Glow in the Wild - Spectre One Farewell</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-       .cal-icon {
-    display: inline-block;
-    background: #fff;
-    color: #000;
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-    vertical-align: middle;
-    margin-right: 10px;
-    text-align: center;
-    line-height: 1.2;
-    font-weight: bold;
-    border: 2px solid var(--secondary);
-}
-.cal-icon span { display: block; font-size: 0.6rem; background: #ff0000; color: #fff; border-radius: 3px 3px 0 0; }
+        :root {
+            --neon-green: #39ff14;
+            --neon-yellow: #ffff00;
+            --neon-orange: #ff6700;
+            --bg-dark: #050b05;
+            --font-display: 'Bebas Neue', cursive;
+            --font-sans: 'Montserrat', sans-serif;
+        }
 
-        :root { --bg: #0a0a0a; --accent: #ff00ff; --secondary: #00f2ff; --text: #ffffff; }
-        body, html { margin: 0; padding: 0; height: 100%; background-color: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; display: flex; justify-content: center; align-items: center; overflow: hidden; }
-        #game-container { width: 90%; max-width: 400px; text-align: center; border: 2px solid var(--accent); padding: 30px; border-radius: 10px; background: rgba(255, 0, 255, 0.05); box-shadow: 0 0 20px var(--accent); }
-        .captcha-step { display: none; }
-        .captcha-step.active { display: block; }
-        h1 { font-family: 'Bebas Neue', cursive; font-size: 2.5rem; color: var(--secondary); margin-bottom: 10px; }
-        .btn { background: transparent; border: 1px solid var(--text); color: var(--text); padding: 12px 20px; cursor: pointer; margin: 8px; font-family: 'Bebas Neue'; font-size: 1.2rem; width: 85%; }
-        .btn:hover { background: var(--secondary); color: black; border-color: var(--secondary); }
-        #final-invite { display: none; text-align: center; background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('hero.jpg'); background-size: cover; width: 100%; height: 100vh; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
-        .details-box { border-left: 5px solid var(--accent); padding-left: 20px; text-align: left; }
-        .icon-link { font-size: 3rem; color: var(--secondary); text-decoration: none; margin-top: 10px; display: inline-block; cursor: pointer; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-dark);
+            font-family: var(--font-sans);
+            color: #ffffff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- LAYER 1: PITCH BLACK TORCH OVERLAY --- */
+        #torch-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000000;
+            z-index: 100;
+            cursor: none;
+            touch-action: none;
+        }
+
+        /* --- INTERACTION PROMPTS --- */
+        #instruction-prompt {
+            position: absolute;
+            top: 10%;
+            width: 100%;
+            text-align: center;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            pointer-events: none;
+            transition: color 0.5s ease;
+        }
+
+        /* --- LAYER 2: HIDDEN BOARD UNDERNEATH --- */
+        #signboard-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none; /* Allows touch to pass through to overlay while searching */
+        }
+
+        .skull-icon {
+            font-size: 3.5rem;
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        .sign-text {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            color: var(--neon-orange);
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px var(--neon-orange);
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+
+        #entry-arrow {
+            display: inline-block;
+            font-size: 3rem;
+            color: var(--neon-green);
+            text-decoration: none;
+            text-shadow: 0 0 15px var(--neon-green);
+            cursor: pointer;
+            pointer-events: auto; /* Re-enables clicking on the arrow itself */
+            animation: arrow-blink 0.8s infinite alternate;
+            background: transparent;
+            border: none;
+            padding: 10px;
+        }
+
+        /* --- LAYER 3: MAIN INVITATION SCREEN --- */
+        #main-invite {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(5, 11, 5, 0.85), rgba(5, 11, 5, 0.85)), url('wild.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 20px;
+            transition: opacity 1.5s ease-in-out;
+            pointer-events: none;
+        }
+
+        #main-invite.active {
+            opacity: 1;
+            z-index: 150; /* Sits completely on top of torch layer once activated */
+            pointer-events: auto;
+        }
+
+        /* --- TYPOGRAPHY & LAYOUT CONFIG --- */
+        .hero-headers {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .title-neon {
+            font-family: var(--font-display);
+            font-size: 4rem;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green), 0 0 30px var(--neon-green);
+            line-height: 0.9;
+        }
+
+        .subtitle-neon {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--neon-yellow);
+            letter-spacing: 2px;
+            margin-top: 5px;
+            text-shadow: 0 0 5px var(--neon-yellow);
+        }
+
+        .details-matrix {
+            width: 100%;
+            max-width: 360px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            padding: 25px 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+        }
+
+        .matrix-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .matrix-row:last-child { border-bottom: none; }
+
+        .label-group {
+            text-align: left;
+        }
+
+        .label-title {
+            font-size: 0.65rem;
+            font-weight: bold;
+            color: var(--neon-orange);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .label-value {
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: #ffffff;
+            margin-top: 2px;
+        }
+
+        /* --- MINI MATRIX BUTTONS --- */
+        .mini-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--neon-yellow);
+            color: var(--neon-yellow);
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 8px rgba(255, 255, 0, 0.2);
+        }
+
+        .mini-btn:hover {
+            background: var(--neon-yellow);
+            color: #000000;
+            box-shadow: 0 0 15px var(--neon-yellow);
+        }
+
+        /* --- CUSTOM CALENDAR EMBED --- */
+        .cal-tile {
+            text-align: center;
+            line-height: 1.1;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+        .cal-tile span {
+            display: block;
+            font-size: 0.5rem;
+            color: var(--neon-orange);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes pulse { 0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--neon-orange)); } 100% { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--neon-orange)); } }
+        @keyframes arrow-blink { 0% { opacity: 0.3; transform: translateX(0); } 100% { opacity: 1; transform: translateX(5px); } }
+
+        /* --- ERROR OVERLAY PROTECTION --- */
+        #error-msg {
+            position: absolute;
+            bottom: 5%;
+            width: 100%;
+            text-align: center;
+            color: var(--neon-orange);
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
 
+    <!-- Backstage Music Track -->
     <audio id="bgMusic" loop src="vibe.mp3"></audio>
 
-    <div id="game-container">
-        <!-- Step 1 -->
-        <div id="step-1" class="captcha-step active">
-            <h1>VIBE CHECK 01</h1>
-            <p>Select the object required for "General Happiness":</p>
-            <button class="btn" onclick="alert('Wrong protocol.')">Unread Emails</button>
-            <button class="btn" onclick="goToStep2()">A Cold Glass</button>
-        </div>
-
-        <!-- Step 2 -->
-        <div id="step-2" class="captcha-step">
-            <h1>VIBE CHECK 02</h1>
-            <p>Protocol for the night?</p>
-            <button class="btn" onclick="goToStep3()">Relax & Open Up</button>
-            <button class="btn" onclick="alert('No MCs allowed.')">Acting as MC</button>
-        </div>
-
-        <!-- Step 3 -->
-        <div id="step-3" class="captcha-step">
-            <h1>VIBE CHECK 03</h1>
-            <p>"Life moves pretty fast..."</p>
-            <button class="btn" onclick="showInvite()">"...You could miss it."</button>
+    <!-- INTERACTIVE GATEKEEPER AREA -->
+    <div id="torch-overlay">
+        <div id="instruction-prompt">Drag finger to point flashlight...</div>
+        
+        <div id="signboard-container">
+            <div class="skull-icon">💀</div>
+            <div class="sign-text">SPECTRE JUNGLE</div>
+            <button id="entry-arrow" onclick="igniteVibe()">➡️</button>
         </div>
     </div>
+    <div id="error-msg"></div>
 
-    <div id="final-invite">
-        <h1 style="font-size: 3.5rem; color: var(--accent);">YOU'RE IN.</h1>
-        <div class="details-box">
-            <p><strong>WHERE:</strong> Spectres Officers Mess Bar 
-                <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 20px;">
-    <a href="https://maps.app.goo.gl/n6G44bKvQP533tvL7?g_st=iw" target="_blank" class="btn" style="text-decoration: none; display: inline-block; width: auto; font-size: 1rem; padding: 10px 20px;" onclick="playVibe()">
-        📍 CLICK FOR LOCATION
-    </a>
-</div>
-            </p>
-            <p><strong>WHEN:</strong> 1930 Hours Onwards</p>
-            <p><strong>DRESS:</strong> Comfort Wear</p>
+    <!-- MAIN INVITATION PAGE (REVEALED LAYER) -->
+    <div id="main-invite">
+        <div class="hero-headers">
+            <h1 class="title-neon">GLOW IN THE WILD</h1>
+            <div class="subtitle-neon">A Loving Farewell to Spectre One</div>
         </div>
-        <button class="btn" style="width: auto; display: flex; align-items: center; margin: 20px auto;" onclick="window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=General+Happiness+at+Spectres&dates=20260508T140000Z/20260508T180000Z&details=No+MC.+Just+Cocktails.&location=Spectres+Officers+Mess+Bar')">
-    <div class="cal-icon"><span>MAY</span>08</div> SET REMINDER
-</button>
 
+        <div class="details-matrix">
+            <!-- Row 1: Venue -->
+            <div class="matrix-row">
+                <div class="label-group">
+                    <div class="label-title">Where</div>
+                    <div class="label-value">Officers Mess, AFS Kalpi</div>
+                </div>
+                <a href="https://maps.app.goo.gl/n6G44bKvQP533tvL7?g_st=iw" target="_blank" class="mini-btn">📍</a>
+            </div>
+
+            <!-- Row 2: Date & Time -->
+            <div class="matrix-row">
+                <div class="label-group">
+                    <div class="label-title">When</div>
+                    <div class="label-value">12 Jun 2026 @ 2000 Hrs</div>
+                </div>
+                <!-- Precision Google Calendar integration configured for June 12, 2026 at 20:00 (14:30 UTC) -->
+                <button class="mini-btn" onclick="window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=Glow+In+The+Wild%3A+Spectre+One+Farewell&dates=20260612T143000Z/20260612T183000Z&details=Glow+in+the+Wild+Farewell+Party+Protocol+Active.&location=Officers+Mess%2C+AFS+Kalpi')">
+                    <div class="cal-tile"><span>JUN</span>12</div>
+                </button>
+            </div>
+
+            <!-- Row 3: Dress Code -->
+            <div class="matrix-row">
+                <div class="label-group">
+                    <div class="label-title">Dress Code</div>
+                    <div class="label-value">Comfortable</div>
+                </div>
+                <div class="mini-btn" style="border-color: var(--neon-green); color: var(--neon-green); cursor: default; box-shadow: none;">🍃</div>
+            </div>
+        </div>
+
+        <div style="font-size: 0.6rem; color: rgba(255,255,255,0.4); letter-spacing: 2px;">SCAN TO SHARE OR PASS ALONG</div>
     </div>
 
     <script>
-        function goToStep2() {
-            document.getElementById('step-1').style.display = 'none';
-            document.getElementById('step-2').style.display = 'block';
+        const overlay = document.getElementById('torch-overlay');
+        const promptText = document.getElementById('instruction-prompt');
+        let torchDiscovered = false;
+
+        // Initialize darkness setup with a tiny 0-pixel spotlight mask right off screen
+        overlay.style.background = `radial-gradient(circle 0px at -100px -100px, transparent 100%, #000000 100%)`;
+
+        // Torch Light Tracking Engine
+        function updateTorch(e) {
+            // Support both desktop mouse moving and mobile touch moving mechanics
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+            // Render a 110px transparent window inside the pure black overlay
+            overlay.style.background = `radial-gradient(circle 110px at ${clientX}px ${clientY}px, transparent 100%, #000000 100%)`;
+
+            // Detect if flashlight beam passes over the central quadrant area
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            
+            if (!torchDiscovered && 
+                clientX > (screenWidth * 0.3) && clientX < (screenWidth * 0.7) &&
+                clientY > (screenHeight * 0.3) && clientY < (screenHeight * 0.7)) {
+                
+                torchDiscovered = true;
+                promptText.innerText = "Target Found. Tap the glowing arrow to enter...";
+                promptText.style.color = "var(--neon-green)";
+            }
         }
 
-        function goToStep3() {
-            document.getElementById('step-2').style.display = 'none';
-            document.getElementById('step-3').style.display = 'block';
-        }
+        overlay.addEventListener('mousemove', updateTorch);
+        overlay.addEventListener('touchmove', updateTorch, { passive: true });
 
-        function showInvite() {
-            document.getElementById('game-container').style.display = 'none';
-            document.getElementById('final-invite').style.display = 'flex';
-        }
+        // Gate Activation Sequence
+        function igniteVibe() {
+            if (!torchDiscovered) {
+                document.getElementById('error-msg').innerText = "SYSTEM: SECTOR NOT YET RECONNOITERED.";
+                setTimeout(() => { document.getElementById('error-msg').innerText = ""; }, 2000);
+                return;
+            }
 
-        function playVibe() {
-            var audio = document.getElementById('bgMusic');
-            audio.play();
+            // Audio Protocol initialization
+            const audio = document.getElementById('bgMusic');
+            audio.play().catch(err => console.log("Audio waiting for explicit configuration profile interaction reset."));
+
+            // Peeling layer transition trigger
+            document.getElementById('main-invite').classList.add('active');
         }
     </script>
 </body>
