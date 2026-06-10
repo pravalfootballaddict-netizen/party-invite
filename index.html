@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
     <meta property="og:title" content="GLOW IN THE WILD">
-    <meta property="og:description" content="[SECURE ACCESS] A Loving Farewell to Spectre One.">
+    <meta property="og:description" content="[SECURE ACCESS] Join us for an evening of drinks, laughter and a farewell toast to Spectre One.">
     <meta property="og:image" content="https://operation-happiness.com/thumbnail.jpg">
     <meta property="og:url" content="https://operation-happiness.com">
     <meta property="og:type" content="website">
@@ -35,6 +35,27 @@
             position: relative;
         }
 
+        /* --- PERSISTENT FLOATING AUDIO CONTROL CONTROLLER --- */
+        #audio-toggle-widget {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 2000; /* Stays fixed at the very top of both layouts */
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+            transition: all 0.3s ease;
+        }
+
         /* --- STAGE A: THE INTERACTIVE GATEKEEPER AREA --- */
         #gatekeeper-stage {
             position: fixed;
@@ -46,10 +67,9 @@
             z-index: 500;
         }
 
-        /* --- INSTRUCTION GUIDE AT TOP --- */
         #instruction-prompt {
             position: absolute;
-            top: 8%;
+            top: 12%;
             width: 100%;
             text-align: center;
             font-family: var(--font-sans);
@@ -60,9 +80,9 @@
             text-shadow: 0 0 10px rgba(255,255,255,0.8);
             pointer-events: none;
             z-index: 700;
+            padding: 0 10px;
         }
 
-        /* --- THE HIDDEN TARGET TARGET CONTENTS --- */
         #hidden-jungle-contents {
             position: absolute;
             top: 50%;
@@ -70,7 +90,7 @@
             transform: translate(-50%, -50%);
             text-align: center;
             width: 300px;
-            z-index: 510; /* Safely nested behind the solid shroud wall */
+            z-index: 510;
         }
 
         .patch-target {
@@ -88,7 +108,6 @@
             line-height: 1;
         }
 
-        /* --- SOLID IRON SHROUD CANVAS --- */
         #black-shroud-wall {
             position: absolute;
             top: 0;
@@ -96,14 +115,13 @@
             width: 100vw;
             height: 100vh;
             background: #000000;
-            z-index: 520; /* Physically blankets the screen to block leakage */
+            z-index: 520;
             touch-action: none;
-            /* Places default mask position way out of boundary frame bounds initially */
             -webkit-mask-image: radial-gradient(circle 100px at -200px -200px, transparent 100%, #000000 100%);
             mask-image: radial-gradient(circle 100px at -200px -200px, transparent 100%, #000000 100%);
         }
 
-        /* --- STAGE B: MAIN INVITATION CARD MATRICES --- */
+        /* --- STAGE B: MAIN INVITATION SCREEN --- */
         #main-invite {
             position: fixed;
             top: 0;
@@ -121,13 +139,12 @@
             padding: 45px 20px;
         }
 
-        /* --- MINIMAL GLOW CLEAN TYPOGRAPHY --- */
-        .hero-headers { text-align: center; margin-top: 15px; }
+        .hero-headers { text-align: center; margin-top: 25px; }
         .title-neon {
             font-family: var(--font-display);
             font-size: 4.2rem;
             color: var(--neon-green);
-            text-shadow: 0 0 4px var(--neon-green); /* Ultra precise blur restriction */
+            text-shadow: 0 0 4px var(--neon-green);
             line-height: 0.9;
         }
         .subtitle-neon {
@@ -185,7 +202,7 @@
         .cal-tile { text-align: center; line-height: 1.1; font-weight: bold; font-size: 0.85rem; }
         .cal-tile span { display: block; font-size: 0.5rem; color: var(--neon-orange); }
 
-        /* --- POPUP COMPLIMENT COMPONENT SYSTEM --- */
+        /* --- CUSTOM POPUP DISPLAY CONFIG --- */
         #custom-popup {
             display: none;
             position: fixed;
@@ -200,7 +217,7 @@
             border-radius: 12px;
             text-align: center;
             box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
-            z-index: 1000;
+            z-index: 3000; /* Sits completely on top of audio toggles */
         }
         #custom-popup p { font-size: 0.95rem; line-height: 1.4; color: #ffffff; margin-bottom: 20px; }
         #custom-popup button { background: var(--neon-green); color: #000000; border: none; padding: 8px 25px; font-family: var(--font-display); font-size: 1.2rem; border-radius: 6px; cursor: pointer; }
@@ -208,7 +225,9 @@
 </head>
 <body>
 
-    <audio id="bgMusic" loop src="vibes.mp3"></audio>
+    <audio id="bgMusic" loop src="vibes.mp3" muted></audio>
+
+    <button id="audio-toggle-widget" onclick="toggleAudioState()">🔇</button>
 
     <div id="custom-popup">
         <p>Classy person like you don’t need dressing suggestions!</p>
@@ -229,7 +248,7 @@
     <div id="main-invite">
         <div class="hero-headers">
             <h1 class="title-neon">GLOW IN THE WILD</h1>
-            <div class="subtitle-neon">A Loving Farewell to Spectre One</div>
+            <div class="subtitle-neon">Join us for an evening of drinks, laughter and a farewell toast to Spectre One</div>
         </div>
 
         <div class="details-matrix">
@@ -268,10 +287,41 @@
         const promptText = document.getElementById('instruction-prompt');
         const gatekeeperStage = document.getElementById('gatekeeper-stage');
         const mainInvite = document.getElementById('main-invite');
+        const audioTrack = document.getElementById('bgMusic');
+        const audioWidget = document.getElementById('audio-toggle-widget');
 
         let torchTrackingActive = true;
-        let delayTimer = null; // Holds our 5-second countdown alarm
-        let holdsTarget = false; // Tracks if the user is currently hovering over the center
+        let delayTimer = null; 
+        let holdsTarget = false; 
+
+        // State Machine Controller variables
+        let isAudioMuted = true;
+        let setupActivated = false;
+
+        // Dedicated Volume Control Function Toggle Node
+        function toggleAudioState() {
+            // First human click profile activates the track if not already running
+            if (!setupActivated) {
+                audioTrack.play().catch(err => console.log("Engine sync ongoing."));
+                setupActivated = true;
+            }
+
+            if (isAudioMuted) {
+                // Unmute audio track state update
+                audioTrack.muted = false;
+                audioWidget.innerText = "🔊";
+                audioWidget.style.borderColor = "var(--neon-green)";
+                audioWidget.style.color = "var(--neon-green)";
+                isAudioMuted = false;
+            } else {
+                // Mute audio track state update
+                audioTrack.muted = true;
+                audioWidget.innerText = "🔇";
+                audioWidget.style.borderColor = "rgba(255,255,255,0.3)";
+                audioWidget.style.color = "rgba(255,255,255,0.4)";
+                isAudioMuted = true;
+            }
+        }
 
         function scanTargetVectors(e) {
             if (!torchTrackingActive) return;
@@ -279,33 +329,29 @@
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
-            // Render torch light window dynamically
             const maskStyle = `radial-gradient(circle 105px at ${clientX}px ${clientY}px, transparent 100%, #000000 100%)`;
             shroud.style.webkitMaskImage = maskStyle;
             shroud.style.maskImage = maskStyle;
 
             const screenWidth = window.innerWidth;
             const screenHeight = window.innerHeight;
-    
-            // Check if the flashlight is inside the central target quadrant zone
+            
             const insideTargetZone = (clientX > (screenWidth * 0.35) && clientX < (screenWidth * 0.65) &&
                                       clientY > (screenHeight * 0.35) && clientY < (screenHeight * 0.65));
 
             if (insideTargetZone) {
                 if (!holdsTarget) {
-                    // User just entered the zone! Start the 5-second fuse
                     holdsTarget = true;
                     promptText.innerText = "Target locked. Stand by for reconnaissance...";
                     promptText.style.color = "var(--neon-orange)";
-            
-                    // Set the timer for 5000 milliseconds (5 seconds)
+                    
+                    // Controlled 5 second time delay before detonation sequence execution
                     delayTimer = setTimeout(() => {
                         igniteAutoExposure(clientX, clientY);
                     }, 5000); 
                 }
             } else {
                 if (holdsTarget) {
-                    // User drifted away from the patch! Reset and clear the timer safely
                     holdsTarget = false;
                     clearTimeout(delayTimer); 
                     promptText.innerText = "Signal lost. Find the target...";
@@ -321,11 +367,19 @@
             torchTrackingActive = false; 
             promptText.style.display = "none";
 
-            const audio = document.getElementById('bgMusic');
-            audio.play().catch(err => console.log("Audio node operating nominal."));
+            // If the user has unmuted the widget prior to acquisition, automatic track initialization is permitted
+            if (isAudioMuted && !setupActivated) {
+                // If they haven't touched it yet, auto unmuting once the 5 second search challenge finishes
+                audioTrack.muted = false;
+                audioTrack.play().catch(e => console.log("Awaiting human tap node authorization."));
+                audioWidget.innerText = "🔊";
+                isAudioMuted = false;
+                setupActivated = true;
+            } else {
+                audioTrack.play().catch(e => {});
+            }
 
-            let flashRadius = 110;
-    
+            let flashRadius = 105;
             const detonationInterval = setInterval(() => {
                 flashRadius += 45; 
                 const expandedStyle = `radial-gradient(circle ${flashRadius}px at ${centerX}px ${centerY}px, transparent 100%, #000000 100%)`;
