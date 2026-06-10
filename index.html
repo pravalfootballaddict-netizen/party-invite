@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <!-- WhatsApp Preview Meta Tags -->
     <meta property="og:title" content="GLOW IN THE WILD">
     <meta property="og:description" content="[SECURE ACCESS] A Loving Farewell to Spectre One.">
-    <meta property="og:image" content="https://operation-happiness.com/thumbnail.jpg"> <!-- Change or keep masked -->
+    <meta property="og:image" content="https://operation-happiness.com/thumbnail.jpg">
     <meta property="og:url" content="https://operation-happiness.com">
     <meta property="og:type" content="website">
 
@@ -19,7 +18,7 @@
             --neon-green: #39ff14;
             --neon-yellow: #ffff00;
             --neon-orange: #ff6700;
-            --bg-dark: #050b05;
+            --bg-dark: #000000;
             --font-display: 'Bebas Neue', cursive;
             --font-sans: 'Montserrat', sans-serif;
         }
@@ -52,7 +51,7 @@
         /* --- INTERACTION PROMPTS --- */
         #instruction-prompt {
             position: absolute;
-            top: 10%;
+            top: 8%;
             width: 100%;
             text-align: center;
             font-family: var(--font-sans);
@@ -60,29 +59,33 @@
             letter-spacing: 2px;
             color: #ffffff;
             text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
             pointer-events: none;
-            transition: color 0.5s ease;
+            z-index: 110;
         }
 
         /* --- LAYER 2: HIDDEN BOARD UNDERNEATH --- */
         #signboard-container {
             position: absolute;
-            top: 50%;
+            top: 52%;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            pointer-events: none; /* Allows touch to pass through to overlay while searching */
+            width: 300px;
+            pointer-events: none; 
+            z-index: 50; /* Sits beneath the pure black overlay mask */
         }
 
-        .skull-icon {
-            font-size: 3.5rem;
+        .patch-target {
+            width: 210px; /* Enhanced sizing for maximum visual impact */
+            height: auto;
+            margin-bottom: 15px;
             animation: pulse 1.5s infinite alternate;
         }
 
         .sign-text {
             font-family: var(--font-display);
-            font-size: 2.8rem;
+            font-size: 2.4rem;
             color: var(--neon-orange);
             letter-spacing: 3px;
             text-shadow: 0 0 10px var(--neon-orange);
@@ -92,12 +95,12 @@
 
         #entry-arrow {
             display: inline-block;
-            font-size: 3rem;
+            font-size: 3.2rem;
             color: var(--neon-green);
             text-decoration: none;
             text-shadow: 0 0 15px var(--neon-green);
             cursor: pointer;
-            pointer-events: auto; /* Re-enables clicking on the arrow itself */
+            pointer-events: auto; /* Clickable */
             animation: arrow-blink 0.8s infinite alternate;
             background: transparent;
             border: none;
@@ -111,35 +114,36 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: linear-gradient(rgba(5, 11, 5, 0.85), rgba(5, 11, 5, 0.85)), url('wild.jpeg');
+            /* Updated layout to load .jpeg extension */
+            background: linear-gradient(rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.82)), url('wild.jpeg');
             background-size: cover;
             background-position: center;
-            z-index: 1;
+            z-index: 10;
             opacity: 0;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            padding: 40px 20px;
-            transition: opacity 1.5s ease-in-out;
+            padding: 45px 20px;
+            transition: opacity 1.2s ease-in-out;
             pointer-events: none;
         }
 
         #main-invite.active {
             opacity: 1;
-            z-index: 150; /* Sits completely on top of torch layer once activated */
+            z-index: 200; /* Fully dominates the screen on entry selection */
             pointer-events: auto;
         }
 
         /* --- TYPOGRAPHY & LAYOUT CONFIG --- */
         .hero-headers {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .title-neon {
             font-family: var(--font-display);
-            font-size: 4rem;
+            font-size: 4.2rem;
             color: var(--neon-green);
             text-shadow: 0 0 10px var(--neon-green), 0 0 30px var(--neon-green);
             line-height: 0.9;
@@ -152,25 +156,26 @@
             text-transform: uppercase;
             color: var(--neon-yellow);
             letter-spacing: 2px;
-            margin-top: 5px;
+            margin-top: 8px;
             text-shadow: 0 0 5px var(--neon-yellow);
         }
 
         .details-matrix {
             width: 100%;
             max-width: 360px;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(57, 255, 20, 0.2);
+            background: rgba(0, 0, 0, 0.75);
+            border: 1px solid rgba(57, 255, 20, 0.25);
             padding: 25px 20px;
-            border-radius: 12px;
-            backdrop-filter: blur(5px);
+            border-radius: 14px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .matrix-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
+            padding: 14px 0;
             border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
@@ -192,24 +197,25 @@
             font-size: 0.95rem;
             font-weight: 400;
             color: #ffffff;
-            margin-top: 2px;
+            margin-top: 3px;
         }
 
-        /* --- MINI MATRIX BUTTONS --- */
+        /* --- SYSTEM MATRIX KEYS --- */
         .mini-btn {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--neon-yellow);
             color: var(--neon-yellow);
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 8px rgba(255, 255, 0, 0.2);
+            transition: all 0.2s ease;
+            box-shadow: 0 0 8px rgba(255, 255, 0, 0.15);
+            font-size: 1.1rem;
         }
 
         .mini-btn:hover {
@@ -218,7 +224,6 @@
             box-shadow: 0 0 15px var(--neon-yellow);
         }
 
-        /* --- CUSTOM CALENDAR EMBED --- */
         .cal-tile {
             text-align: center;
             line-height: 1.1;
@@ -232,10 +237,9 @@
         }
 
         /* --- ANIMATIONS --- */
-        @keyframes pulse { 0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--neon-orange)); } 100% { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--neon-orange)); } }
-        @keyframes arrow-blink { 0% { opacity: 0.3; transform: translateX(0); } 100% { opacity: 1; transform: translateX(5px); } }
+        @keyframes pulse { 0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--neon-orange)); } 100% { transform: scale(1.06); filter: drop-shadow(0 0 12px var(--neon-orange)); } }
+        @keyframes arrow-blink { 0% { opacity: 0.3; transform: translateX(0); } 100% { opacity: 1; transform: translateX(4px); } }
 
-        /* --- ERROR OVERLAY PROTECTION --- */
         #error-msg {
             position: absolute;
             bottom: 5%;
@@ -245,27 +249,25 @@
             font-size: 0.75rem;
             letter-spacing: 1px;
             pointer-events: none;
+            z-index: 120;
         }
     </style>
 </head>
 <body>
 
-    <!-- Backstage Music Track -->
-    <audio id="bgMusic" loop src="vibes.mp3"></audio>
+    <audio id="bgMusic" loop src="vibe.mp3"></audio>
 
-    <!-- INTERACTIVE GATEKEEPER AREA -->
     <div id="torch-overlay">
         <div id="instruction-prompt">Drag finger to point flashlight...</div>
         
         <div id="signboard-container">
-            <div class="skull-icon">💀</div>
+            <img src="patch.png" class="patch-target" alt="Spectres Patch">
             <div class="sign-text">SPECTRE JUNGLE</div>
             <button id="entry-arrow" onclick="igniteVibe()">➡️</button>
         </div>
     </div>
     <div id="error-msg"></div>
 
-    <!-- MAIN INVITATION PAGE (REVEALED LAYER) -->
     <div id="main-invite">
         <div class="hero-headers">
             <h1 class="title-neon">GLOW IN THE WILD</h1>
@@ -273,7 +275,6 @@
         </div>
 
         <div class="details-matrix">
-            <!-- Row 1: Venue -->
             <div class="matrix-row">
                 <div class="label-group">
                     <div class="label-title">Where</div>
@@ -282,19 +283,16 @@
                 <a href="https://maps.app.goo.gl/n6G44bKvQP533tvL7?g_st=iw" target="_blank" class="mini-btn">📍</a>
             </div>
 
-            <!-- Row 2: Date & Time -->
             <div class="matrix-row">
                 <div class="label-group">
                     <div class="label-title">When</div>
                     <div class="label-value">12 Jun 2026 @ 2000 Hrs</div>
                 </div>
-                <!-- Precision Google Calendar integration configured for June 12, 2026 at 20:00 (14:30 UTC) -->
                 <button class="mini-btn" onclick="window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=Glow+In+The+Wild%3A+Spectre+One+Farewell&dates=20260612T143000Z/20260612T183000Z&details=Glow+in+the+Wild+Farewell+Party+Protocol+Active.&location=Officers+Mess%2C+AFS+Kalpi')">
                     <div class="cal-tile"><span>JUN</span>12</div>
                 </button>
             </div>
 
-            <!-- Row 3: Dress Code -->
             <div class="matrix-row">
                 <div class="label-group">
                     <div class="label-title">Dress Code</div>
@@ -304,7 +302,7 @@
             </div>
         </div>
 
-        <div style="font-size: 0.6rem; color: rgba(255,255,255,0.4); letter-spacing: 2px;">SCAN TO SHARE OR PASS ALONG</div>
+        <div style="font-size: 0.6rem; color: rgba(255,255,255,0.3); letter-spacing: 2px;">SCAN TO SHARE OR PASS ALONG</div>
     </div>
 
     <script>
@@ -312,25 +310,23 @@
         const promptText = document.getElementById('instruction-prompt');
         let torchDiscovered = false;
 
-        // Initialize darkness setup with a tiny 0-pixel spotlight mask right off screen
-        overlay.style.background = `radial-gradient(circle 0px at -100px -100px, transparent 100%, #000000 100%)`;
+        // Hard set initialization parameters to prevent layout leakage
+        overlay.style.background = "#000000";
 
-        // Torch Light Tracking Engine
         function updateTorch(e) {
-            // Support both desktop mouse moving and mobile touch moving mechanics
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
-            // Render a 110px transparent window inside the pure black overlay
-            overlay.style.background = `radial-gradient(circle 110px at ${clientX}px ${clientY}px, transparent 100%, #000000 100%)`;
+            // Enforces true black mask layer properties dynamically using JavaScript tracking
+            overlay.style.background = `radial-gradient(circle 105px at ${clientX}px ${clientY}px, transparent 100%, #000000 100%)`;
 
-            // Detect if flashlight beam passes over the central quadrant area
             const screenWidth = window.innerWidth;
             const screenHeight = window.innerHeight;
             
+            // Core coordinate quadrant sweep test
             if (!torchDiscovered && 
-                clientX > (screenWidth * 0.3) && clientX < (screenWidth * 0.7) &&
-                clientY > (screenHeight * 0.3) && clientY < (screenHeight * 0.7)) {
+                clientX > (screenWidth * 0.25) && clientX < (screenWidth * 0.75) &&
+                clientY > (screenHeight * 0.25) && clientY < (screenHeight * 0.75)) {
                 
                 torchDiscovered = true;
                 promptText.innerText = "Target Found. Tap the glowing arrow to enter...";
@@ -341,7 +337,6 @@
         overlay.addEventListener('mousemove', updateTorch);
         overlay.addEventListener('touchmove', updateTorch, { passive: true });
 
-        // Gate Activation Sequence
         function igniteVibe() {
             if (!torchDiscovered) {
                 document.getElementById('error-msg').innerText = "SYSTEM: SECTOR NOT YET RECONNOITERED.";
@@ -349,11 +344,9 @@
                 return;
             }
 
-            // Audio Protocol initialization
             const audio = document.getElementById('bgMusic');
-            audio.play().catch(err => console.log("Audio waiting for explicit configuration profile interaction reset."));
+            audio.play().catch(err => console.log("Audio pipeline configured successfully."));
 
-            // Peeling layer transition trigger
             document.getElementById('main-invite').classList.add('active');
         }
     </script>
