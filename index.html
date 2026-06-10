@@ -342,8 +342,9 @@
         const popup = document.getElementById('custom-popup');
         let torchDiscovered = false;
 
-        // Initialize with impenetrable blackout
-        overlay.style.background = "#000000";
+        // Forced Absolute Blackout Override
+        overlay.style.backgroundColor = "#000000";
+        overlay.style.backgroundImage = "none";
 
         function updateTorch(e) {
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
