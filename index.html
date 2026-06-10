@@ -35,7 +35,7 @@
             position: relative;
         }
 
-        /* --- STAGE A: THE GATEKEEPER ROOM --- */
+        /* --- STAGE A: THE INTERACTIVE GATEKEEPER AREA --- */
         #gatekeeper-stage {
             position: fixed;
             top: 0;
@@ -46,7 +46,7 @@
             z-index: 500;
         }
 
-        /* --- THE INSTRUCTION PROMPT (STAYS ATOP DARKNESS) --- */
+        /* --- INSTRUCTION GUIDE AT TOP --- */
         #instruction-prompt {
             position: absolute;
             top: 8%;
@@ -62,47 +62,33 @@
             z-index: 700;
         }
 
-        /* --- THE CONTENTS WE WANT HIDDEN IN THE JUNGLE --- */
+        /* --- THE HIDDEN TARGET TARGET CONTENTS --- */
         #hidden-jungle-contents {
             position: absolute;
-            top: 52%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
             width: 300px;
-            z-index: 510; /* Sits UNDER the black wall but will be revealed by mask */
+            z-index: 510; /* Safely nested behind the solid shroud wall */
         }
 
         .patch-target {
             width: 210px;
             height: auto;
-            margin-bottom: 15px;
-            animation: pulse 1.5s infinite alternate;
+            margin-bottom: 20px;
         }
 
         .sign-text {
             font-family: var(--font-display);
-            font-size: 2.4rem;
+            font-size: 2.5rem;
             color: var(--neon-orange);
             letter-spacing: 3px;
             text-shadow: 0 0 5px var(--neon-orange);
             line-height: 1;
-            margin-bottom: 15px;
         }
 
-        #entry-arrow {
-            display: inline-block;
-            font-size: 3.2rem;
-            color: var(--neon-green);
-            text-shadow: 0 0 5px var(--neon-green);
-            cursor: pointer;
-            background: transparent;
-            border: none;
-            padding: 10px;
-            animation: arrow-blink 0.8s infinite alternate;
-        }
-
-        /* --- THE IRON CURTAIN (THE BLACK MASKING WALL) --- */
+        /* --- SOLID IRON SHROUD CANVAS --- */
         #black-shroud-wall {
             position: absolute;
             top: 0;
@@ -110,14 +96,14 @@
             width: 100vw;
             height: 100vh;
             background: #000000;
-            z-index: 520; /* Sits completely on top of contents, masking them out */
+            z-index: 520; /* Physically blankets the screen to block leakage */
             touch-action: none;
-            /* Default: hole punched far off-screen so screen is 100% pitch black initially */
+            /* Places default mask position way out of boundary frame bounds initially */
             -webkit-mask-image: radial-gradient(circle 100px at -200px -200px, transparent 100%, #000000 100%);
             mask-image: radial-gradient(circle 100px at -200px -200px, transparent 100%, #000000 100%);
         }
 
-        /* --- STAGE B: MAIN INVITATION SCREEN --- */
+        /* --- STAGE B: MAIN INVITATION CARD MATRICES --- */
         #main-invite {
             position: fixed;
             top: 0;
@@ -135,13 +121,13 @@
             padding: 45px 20px;
         }
 
-        /* --- CLEAN TYPOGRAPHY --- */
+        /* --- MINIMAL GLOW CLEAN TYPOGRAPHY --- */
         .hero-headers { text-align: center; margin-top: 15px; }
         .title-neon {
             font-family: var(--font-display);
             font-size: 4.2rem;
             color: var(--neon-green);
-            text-shadow: 0 0 4px var(--neon-green);
+            text-shadow: 0 0 4px var(--neon-green); /* Ultra precise blur restriction */
             line-height: 0.9;
         }
         .subtitle-neon {
@@ -199,19 +185,7 @@
         .cal-tile { text-align: center; line-height: 1.1; font-weight: bold; font-size: 0.85rem; }
         .cal-tile span { display: block; font-size: 0.5rem; color: var(--neon-orange); }
 
-        /* --- POPUP DIALOGS --- */
-        #error-msg {
-            position: absolute;
-            bottom: 5%;
-            width: 100%;
-            text-align: center;
-            color: var(--neon-orange);
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            pointer-events: none;
-            z-index: 800;
-        }
-
+        /* --- POPUP COMPLIMENT COMPONENT SYSTEM --- */
         #custom-popup {
             display: none;
             position: fixed;
@@ -230,9 +204,6 @@
         }
         #custom-popup p { font-size: 0.95rem; line-height: 1.4; color: #ffffff; margin-bottom: 20px; }
         #custom-popup button { background: var(--neon-green); color: #000000; border: none; padding: 8px 25px; font-family: var(--font-display); font-size: 1.2rem; border-radius: 6px; cursor: pointer; }
-
-        @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
-        @keyframes arrow-blink { 0% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -245,17 +216,15 @@
     </div>
 
     <div id="gatekeeper-stage">
-        <div id="instruction-prompt">Drag finger to point flashlight...</div>
+        <div id="instruction-prompt">Drag finger to use your torch...</div>
         
         <div id="hidden-jungle-contents">
             <img src="patch.png" class="patch-target" alt="Spectres Patch">
             <div class="sign-text">WELCOME TO THE JUNGLE</div>
-            <button id="entry-arrow" onclick="igniteVibe()">➡️</button>
         </div>
 
         <div id="black-shroud-wall"></div>
     </div>
-    <div id="error-msg"></div>
 
     <div id="main-invite">
         <div class="hero-headers">
@@ -299,54 +268,63 @@
         const promptText = document.getElementById('instruction-prompt');
         const gatekeeperStage = document.getElementById('gatekeeper-stage');
         const mainInvite = document.getElementById('main-invite');
-        const popup = document.getElementById('custom-popup');
-        let torchDiscovered = false;
+        let torchTrackingActive = true;
 
-        function updateFlashlight(e) {
+        function scanTargetVectors(e) {
+            if (!torchTrackingActive) return;
+
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
-            // Punch a highly specific, absolute mask path right through the shroud canvas
-            const maskStyle = `radial-gradient(circle 100px at ${clientX}px ${clientY}px, transparent 100%, #000000 100%)`;
+            // Render torch light window dynamically directly based on cursor vectors
+            const maskStyle = `radial-gradient(circle 105px at ${clientX}px ${clientY}px, transparent 100%, #000000 100%)`;
             shroud.style.webkitMaskImage = maskStyle;
             shroud.style.maskImage = maskStyle;
 
             const screenWidth = window.innerWidth;
             const screenHeight = window.innerHeight;
             
-            // Sweep grid calculation validation zone
-            if (!torchDiscovered && 
-                clientX > (screenWidth * 0.25) && clientX < (screenWidth * 0.75) &&
-                clientY > (screenHeight * 0.25) && clientY < (screenHeight * 0.75)) {
+            // Sweep validation grid metrics check (Center Target Coordinates)
+            if (clientX > (screenWidth * 0.38) && clientX < (screenWidth * 0.62) &&
+                clientY > (screenHeight * 0.38) && clientY < (screenHeight * 0.62)) {
                 
-                torchDiscovered = true;
-                promptText.innerText = "Target Found. Tap the glowing arrow to enter...";
-                promptText.style.color = "var(--neon-green)";
+                // CRITICAL CONTACT ESTABLISHED: Launch auto reveal execution loop
+                igniteAutoExposure(clientX, clientY);
             }
         }
 
-        // Dedicated event streaming parameters
-        shroud.addEventListener('mousemove', updateFlashlight);
-        shroud.addEventListener('touchmove', updateFlashlight, { passive: true });
+        shroud.addEventListener('mousemove', scanTargetVectors);
+        shroud.addEventListener('touchmove', scanTargetVectors, { passive: true });
 
-        function igniteVibe() {
-            // Absolute validation check
-            if (!torchDiscovered) {
-                document.getElementById('error-msg').innerText = "SYSTEM: SECTOR NOT YET RECONNOITERED.";
-                setTimeout(() => { document.getElementById('error-msg').innerText = ""; }, 2000);
-                return;
-            }
+        function igniteAutoExposure(centerX, centerY) {
+            torchTrackingActive = false; // Freeze tracker tracking systems immediately
+            promptText.style.display = "none";
 
             const audio = document.getElementById('bgMusic');
-            audio.play().catch(err => console.log("Audio online."));
+            audio.play().catch(err => console.log("Audio node operating nominal."));
 
-            // Destroy the curtain stage completely, bringing the main invite to light
-            gatekeeperStage.style.display = "none";
-            mainInvite.style.display = "flex";
+            let flashRadius = 105;
+            
+            // High speed 60FPS step loop function to expand flashlight radius automatically
+            const detonationInterval = setInterval(() => {
+                flashRadius += 45; 
+                const expandedStyle = `radial-gradient(circle ${flashRadius}px at ${centerX}px ${centerY}px, transparent 100%, #000000 100%)`;
+                shroud.style.webkitMaskImage = expandedStyle;
+                shroud.style.maskImage = expandedStyle;
+
+                // Stop loop when mask window footprint completely over-scales the hardware resolution viewport
+                if (flashRadius > Math.max(window.innerWidth, window.innerHeight) * 1.5) {
+                    clearInterval(detonationInterval);
+                    
+                    // Kill gatekeeper stack completely and engage primary matrix presentation card
+                    gatekeeperStage.style.display = "none";
+                    mainInvite.style.display = "flex";
+                }
+            }, 16);
         }
 
-        function showPopup() { popup.style.display = "block"; }
-        function closePopup() { popup.style.display = "none"; }
+        function showPopup() { document.getElementById('custom-popup').style.display = "block"; }
+        function closePopup() { document.getElementById('custom-popup').style.display = "none"; }
     </script>
 </body>
 </html>
