@@ -43,7 +43,7 @@
             width: 100vw;
             height: 100vh;
             background: #000000;
-            z-index: 100;
+            z-index: 500; /* Dominates the layout stacks completely */
             cursor: none;
             touch-action: none;
         }
@@ -61,10 +61,10 @@
             text-transform: uppercase;
             text-shadow: 0 0 10px rgba(255,255,255,0.8);
             pointer-events: none;
-            z-index: 110;
+            z-index: 600;
         }
 
-        /* --- LAYER 2: HIDDEN BOARD UNDERNEATH --- */
+        /* --- LAYER 2: TARGET ELEMENT --- */
         #signboard-container {
             position: absolute;
             top: 52%;
@@ -73,11 +73,11 @@
             text-align: center;
             width: 300px;
             pointer-events: none; 
-            z-index: 50; /* Sits beneath the pure black overlay mask */
+            z-index: 400; /* Perfectly nested under the torch mask */
         }
 
         .patch-target {
-            width: 210px; /* Enhanced sizing for maximum visual impact */
+            width: 210px;
             height: auto;
             margin-bottom: 15px;
             animation: pulse 1.5s infinite alternate;
@@ -88,7 +88,7 @@
             font-size: 2.4rem;
             color: var(--neon-orange);
             letter-spacing: 3px;
-            text-shadow: 0 0 10px var(--neon-orange);
+            text-shadow: 0 0 5px var(--neon-orange);
             line-height: 1;
             margin-bottom: 15px;
         }
@@ -97,45 +97,34 @@
             display: inline-block;
             font-size: 3.2rem;
             color: var(--neon-green);
-            text-decoration: none;
-            text-shadow: 0 0 15px var(--neon-green);
+            text-shadow: 0 0 5px var(--neon-green);
             cursor: pointer;
-            pointer-events: auto; /* Clickable */
+            pointer-events: auto;
             animation: arrow-blink 0.8s infinite alternate;
             background: transparent;
             border: none;
             padding: 10px;
         }
 
-        /* --- LAYER 3: MAIN INVITATION SCREEN --- */
+        /* --- LAYER 3: MAIN INVITATION SCREEN (STRICT HARDWARE RE-LOCK) --- */
         #main-invite {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            /* Updated layout to load .jpeg extension */
-            background: linear-gradient(rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.82)), url('wild.jpeg');
+            background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('wild.jpeg');
             background-size: cover;
             background-position: center;
             z-index: 10;
-            opacity: 0;
-            display: flex;
+            display: none; /* FORCES ABSOLUTE INVISIBILITY TO PREVENT LEAKAGE */
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
             padding: 45px 20px;
-            transition: opacity 1.2s ease-in-out;
-            pointer-events: none;
         }
 
-        #main-invite.active {
-            opacity: 1;
-            z-index: 200; /* Fully dominates the screen on entry selection */
-            pointer-events: auto;
-        }
-
-        /* --- TYPOGRAPHY & LAYOUT CONFIG --- */
+        /* --- RE-TUNED LEGIBLE TYPOGRAPHY --- */
         .hero-headers {
             text-align: center;
             margin-top: 15px;
@@ -145,7 +134,7 @@
             font-family: var(--font-display);
             font-size: 4.2rem;
             color: var(--neon-green);
-            text-shadow: 0 0 10px var(--neon-green), 0 0 30px var(--neon-green);
+            text-shadow: 0 0 4px var(--neon-green); /* Minimum glow for clean readability */
             line-height: 0.9;
         }
 
@@ -157,13 +146,13 @@
             color: var(--neon-yellow);
             letter-spacing: 2px;
             margin-top: 8px;
-            text-shadow: 0 0 5px var(--neon-yellow);
+            text-shadow: 0 0 3px var(--neon-yellow);
         }
 
         .details-matrix {
             width: 100%;
             max-width: 360px;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.85);
             border: 1px solid rgba(57, 255, 20, 0.25);
             padding: 25px 20px;
             border-radius: 14px;
@@ -200,7 +189,6 @@
             margin-top: 3px;
         }
 
-        /* --- SYSTEM MATRIX KEYS --- */
         .mini-btn {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--neon-yellow);
@@ -221,7 +209,6 @@
         .mini-btn:hover {
             background: var(--neon-yellow);
             color: #000000;
-            box-shadow: 0 0 15px var(--neon-yellow);
         }
 
         .cal-tile {
@@ -237,9 +224,10 @@
         }
 
         /* --- ANIMATIONS --- */
-        @keyframes pulse { 0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--neon-orange)); } 100% { transform: scale(1.06); filter: drop-shadow(0 0 12px var(--neon-orange)); } }
+        @keyframes pulse { 0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--neon-orange)); } 100% { transform: scale(1.06); filter: drop-shadow(0 0 8px var(--neon-orange)); } }
         @keyframes arrow-blink { 0% { opacity: 0.3; transform: translateX(0); } 100% { opacity: 1; transform: translateX(4px); } }
 
+        /* --- POPUP ALERT & SYSTEM DIALOG MECHANISMS --- */
         #error-msg {
             position: absolute;
             bottom: 5%;
@@ -249,13 +237,55 @@
             font-size: 0.75rem;
             letter-spacing: 1px;
             pointer-events: none;
-            z-index: 120;
+            z-index: 700;
+        }
+
+        #custom-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%;
+            max-width: 320px;
+            background: #0a140a;
+            border: 2px solid var(--neon-green);
+            padding: 25px 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+            z-index: 1000;
+        }
+
+        #custom-popup p {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-family: var(--font-sans);
+        }
+
+        #custom-popup button {
+            background: var(--neon-green);
+            color: #000000;
+            border: none;
+            padding: 8px 25px;
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            border-radius: 6px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
     <audio id="bgMusic" loop src="vibe.mp3"></audio>
+
+    <div id="custom-popup">
+        <p>Classy person like you don’t need dressing suggestions!</p>
+        <button onclick="closePopup()">DISMISS</button>
+    </div>
 
     <div id="torch-overlay">
         <div id="instruction-prompt">Drag finger to point flashlight...</div>
@@ -298,7 +328,7 @@
                     <div class="label-title">Dress Code</div>
                     <div class="label-value">Comfortable</div>
                 </div>
-                <div class="mini-btn" style="border-color: var(--neon-green); color: var(--neon-green); cursor: default; box-shadow: none;">🍃</div>
+                <button class="mini-btn" style="border-color: var(--neon-green); color: var(--neon-green);" onclick="showPopup()">✨</button>
             </div>
         </div>
 
@@ -308,22 +338,22 @@
     <script>
         const overlay = document.getElementById('torch-overlay');
         const promptText = document.getElementById('instruction-prompt');
+        const mainInvite = document.getElementById('main-invite');
+        const popup = document.getElementById('custom-popup');
         let torchDiscovered = false;
 
-        // Hard set initialization parameters to prevent layout leakage
+        // Initialize with impenetrable blackout
         overlay.style.background = "#000000";
 
         function updateTorch(e) {
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
-            // Enforces true black mask layer properties dynamically using JavaScript tracking
             overlay.style.background = `radial-gradient(circle 105px at ${clientX}px ${clientY}px, transparent 100%, #000000 100%)`;
 
             const screenWidth = window.innerWidth;
             const screenHeight = window.innerHeight;
             
-            // Core coordinate quadrant sweep test
             if (!torchDiscovered && 
                 clientX > (screenWidth * 0.25) && clientX < (screenWidth * 0.75) &&
                 clientY > (screenHeight * 0.25) && clientY < (screenHeight * 0.75)) {
@@ -345,10 +375,17 @@
             }
 
             const audio = document.getElementById('bgMusic');
-            audio.play().catch(err => console.log("Audio pipeline configured successfully."));
+            audio.play().catch(err => console.log("Audio pipeline loaded."));
 
-            document.getElementById('main-invite').classList.add('active');
+            // Safely clear torch layer assets and bring layout online simultaneously
+            overlay.style.display = "none";
+            mainInvite.style.display = "flex";
+            setTimeout(() => { mainInvite.style.opacity = "1"; }, 50);
         }
+
+        // Custom Popup Logic Controllers
+        function showPopup() { popup.style.display = "block"; }
+        function closePopup() { popup.style.display = "none"; }
     </script>
 </body>
 </html>
