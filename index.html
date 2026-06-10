@@ -268,7 +268,10 @@
         const promptText = document.getElementById('instruction-prompt');
         const gatekeeperStage = document.getElementById('gatekeeper-stage');
         const mainInvite = document.getElementById('main-invite');
+
         let torchTrackingActive = true;
+        let delayTimer = null; // Holds our 5-second countdown alarm
+        let holdsTarget = false; // Tracks if the user is currently hovering over the center
 
         function scanTargetVectors(e) {
             if (!torchTrackingActive) return;
@@ -276,20 +279,38 @@
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
-            // Render torch light window dynamically directly based on cursor vectors
+            // Render torch light window dynamically
             const maskStyle = `radial-gradient(circle 105px at ${clientX}px ${clientY}px, transparent 100%, #000000 100%)`;
             shroud.style.webkitMaskImage = maskStyle;
             shroud.style.maskImage = maskStyle;
 
             const screenWidth = window.innerWidth;
             const screenHeight = window.innerHeight;
+    
+            // Check if the flashlight is inside the central target quadrant zone
+            const insideTargetZone = (clientX > (screenWidth * 0.35) && clientX < (screenWidth * 0.65) &&
+                                      clientY > (screenHeight * 0.35) && clientY < (screenHeight * 0.65));
+
+            if (insideTargetZone) {
+                if (!holdsTarget) {
+                    // User just entered the zone! Start the 5-second fuse
+                    holdsTarget = true;
+                    promptText.innerText = "Target locked. Stand by for reconnaissance...";
+                    promptText.style.color = "var(--neon-orange)";
             
-            // Sweep validation grid metrics check (Center Target Coordinates)
-            if (clientX > (screenWidth * 0.38) && clientX < (screenWidth * 0.62) &&
-                clientY > (screenHeight * 0.38) && clientY < (screenHeight * 0.62)) {
-                
-                // CRITICAL CONTACT ESTABLISHED: Launch auto reveal execution loop
-                igniteAutoExposure(clientX, clientY);
+                    // Set the timer for 5000 milliseconds (5 seconds)
+                    delayTimer = setTimeout(() => {
+                        igniteAutoExposure(clientX, clientY);
+                    }, 5000); 
+                }
+            } else {
+                if (holdsTarget) {
+                    // User drifted away from the patch! Reset and clear the timer safely
+                    holdsTarget = false;
+                    clearTimeout(delayTimer); 
+                    promptText.innerText = "Signal lost. Find the target...";
+                    promptText.style.color = "#ffffff";
+                }
             }
         }
 
@@ -297,26 +318,22 @@
         shroud.addEventListener('touchmove', scanTargetVectors, { passive: true });
 
         function igniteAutoExposure(centerX, centerY) {
-            torchTrackingActive = false; // Freeze tracker tracking systems immediately
+            torchTrackingActive = false; 
             promptText.style.display = "none";
 
             const audio = document.getElementById('bgMusic');
             audio.play().catch(err => console.log("Audio node operating nominal."));
 
-            let flashRadius = 105;
-            
-            // High speed 60FPS step loop function to expand flashlight radius automatically
+            let flashRadius = 110;
+    
             const detonationInterval = setInterval(() => {
                 flashRadius += 45; 
                 const expandedStyle = `radial-gradient(circle ${flashRadius}px at ${centerX}px ${centerY}px, transparent 100%, #000000 100%)`;
                 shroud.style.webkitMaskImage = expandedStyle;
                 shroud.style.maskImage = expandedStyle;
 
-                // Stop loop when mask window footprint completely over-scales the hardware resolution viewport
                 if (flashRadius > Math.max(window.innerWidth, window.innerHeight) * 1.5) {
                     clearInterval(detonationInterval);
-                    
-                    // Kill gatekeeper stack completely and engage primary matrix presentation card
                     gatekeeperStage.style.display = "none";
                     mainInvite.style.display = "flex";
                 }
