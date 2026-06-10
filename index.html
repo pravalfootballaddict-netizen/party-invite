@@ -35,20 +35,18 @@
             position: relative;
         }
 
-        /* --- LAYER 1: PITCH BLACK TORCH OVERLAY --- */
-        #torch-overlay {
+        /* --- STAGE A: THE GATEKEEPER ROOM --- */
+        #gatekeeper-stage {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             background: #000000;
-            z-index: 500; /* Dominates the layout stacks completely */
-            cursor: none;
-            touch-action: none;
+            z-index: 500;
         }
 
-        /* --- INTERACTION PROMPTS --- */
+        /* --- THE INSTRUCTION PROMPT (STAYS ATOP DARKNESS) --- */
         #instruction-prompt {
             position: absolute;
             top: 8%;
@@ -61,19 +59,18 @@
             text-transform: uppercase;
             text-shadow: 0 0 10px rgba(255,255,255,0.8);
             pointer-events: none;
-            z-index: 600;
+            z-index: 700;
         }
 
-        /* --- LAYER 2: TARGET ELEMENT --- */
-        #signboard-container {
+        /* --- THE CONTENTS WE WANT HIDDEN IN THE JUNGLE --- */
+        #hidden-jungle-contents {
             position: absolute;
             top: 52%;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
             width: 300px;
-            pointer-events: none; 
-            z-index: 400; /* Perfectly nested under the torch mask */
+            z-index: 510; /* Sits UNDER the black wall but will be revealed by mask */
         }
 
         .patch-target {
@@ -99,14 +96,28 @@
             color: var(--neon-green);
             text-shadow: 0 0 5px var(--neon-green);
             cursor: pointer;
-            pointer-events: auto;
-            animation: arrow-blink 0.8s infinite alternate;
             background: transparent;
             border: none;
             padding: 10px;
+            animation: arrow-blink 0.8s infinite alternate;
         }
 
-        /* --- LAYER 3: MAIN INVITATION SCREEN (STRICT HARDWARE RE-LOCK) --- */
+        /* --- THE IRON CURTAIN (THE BLACK MASKING WALL) --- */
+        #black-shroud-wall {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000000;
+            z-index: 520; /* Sits completely on top of contents, masking them out */
+            touch-action: none;
+            /* Default: hole punched far off-screen so screen is 100% pitch black initially */
+            -webkit-mask-image: radial-gradient(circle 100px at -200px -200px, transparent 100%, #000000 100%);
+            mask-image: radial-gradient(circle 100px at -200px -200px, transparent 100%, #000000 100%);
+        }
+
+        /* --- STAGE B: MAIN INVITATION SCREEN --- */
         #main-invite {
             position: fixed;
             top: 0;
@@ -117,27 +128,22 @@
             background-size: cover;
             background-position: center;
             z-index: 10;
-            display: none; /* FORCES ABSOLUTE INVISIBILITY TO PREVENT LEAKAGE */
+            display: none; 
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
             padding: 45px 20px;
         }
 
-        /* --- RE-TUNED LEGIBLE TYPOGRAPHY --- */
-        .hero-headers {
-            text-align: center;
-            margin-top: 15px;
-        }
-
+        /* --- CLEAN TYPOGRAPHY --- */
+        .hero-headers { text-align: center; margin-top: 15px; }
         .title-neon {
             font-family: var(--font-display);
             font-size: 4.2rem;
             color: var(--neon-green);
-            text-shadow: 0 0 4px var(--neon-green); /* Minimum glow for clean readability */
+            text-shadow: 0 0 4px var(--neon-green);
             line-height: 0.9;
         }
-
         .subtitle-neon {
             font-family: var(--font-sans);
             font-size: 0.85rem;
@@ -167,27 +173,10 @@
             padding: 14px 0;
             border-bottom: 1px solid rgba(255,255,255,0.08);
         }
-
         .matrix-row:last-child { border-bottom: none; }
-
-        .label-group {
-            text-align: left;
-        }
-
-        .label-title {
-            font-size: 0.65rem;
-            font-weight: bold;
-            color: var(--neon-orange);
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-
-        .label-value {
-            font-size: 0.95rem;
-            font-weight: 400;
-            color: #ffffff;
-            margin-top: 3px;
-        }
+        .label-group { text-align: left; }
+        .label-title { font-size: 0.65rem; font-weight: bold; color: var(--neon-orange); letter-spacing: 1.5px; text-transform: uppercase; }
+        .label-value { font-size: 0.95rem; font-weight: 400; color: #ffffff; margin-top: 3px; }
 
         .mini-btn {
             background: rgba(255, 255, 255, 0.03);
@@ -205,29 +194,12 @@
             box-shadow: 0 0 8px rgba(255, 255, 0, 0.15);
             font-size: 1.1rem;
         }
+        .mini-btn:hover { background: var(--neon-yellow); color: #000000; }
 
-        .mini-btn:hover {
-            background: var(--neon-yellow);
-            color: #000000;
-        }
+        .cal-tile { text-align: center; line-height: 1.1; font-weight: bold; font-size: 0.85rem; }
+        .cal-tile span { display: block; font-size: 0.5rem; color: var(--neon-orange); }
 
-        .cal-tile {
-            text-align: center;
-            line-height: 1.1;
-            font-weight: bold;
-            font-size: 0.85rem;
-        }
-        .cal-tile span {
-            display: block;
-            font-size: 0.5rem;
-            color: var(--neon-orange);
-        }
-
-        /* --- ANIMATIONS --- */
-        @keyframes pulse { 0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--neon-orange)); } 100% { transform: scale(1.06); filter: drop-shadow(0 0 8px var(--neon-orange)); } }
-        @keyframes arrow-blink { 0% { opacity: 0.3; transform: translateX(0); } 100% { opacity: 1; transform: translateX(4px); } }
-
-        /* --- POPUP ALERT & SYSTEM DIALOG MECHANISMS --- */
+        /* --- POPUP DIALOGS --- */
         #error-msg {
             position: absolute;
             bottom: 5%;
@@ -237,7 +209,7 @@
             font-size: 0.75rem;
             letter-spacing: 1px;
             pointer-events: none;
-            z-index: 700;
+            z-index: 800;
         }
 
         #custom-popup {
@@ -256,26 +228,11 @@
             box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
             z-index: 1000;
         }
+        #custom-popup p { font-size: 0.95rem; line-height: 1.4; color: #ffffff; margin-bottom: 20px; }
+        #custom-popup button { background: var(--neon-green); color: #000000; border: none; padding: 8px 25px; font-family: var(--font-display); font-size: 1.2rem; border-radius: 6px; cursor: pointer; }
 
-        #custom-popup p {
-            font-size: 0.95rem;
-            line-height: 1.4;
-            color: #ffffff;
-            margin-bottom: 20px;
-            font-family: var(--font-sans);
-        }
-
-        #custom-popup button {
-            background: var(--neon-green);
-            color: #000000;
-            border: none;
-            padding: 8px 25px;
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
+        @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
+        @keyframes arrow-blink { 0% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -287,14 +244,16 @@
         <button onclick="closePopup()">DISMISS</button>
     </div>
 
-    <div id="torch-overlay">
+    <div id="gatekeeper-stage">
         <div id="instruction-prompt">Drag finger to point flashlight...</div>
         
-        <div id="signboard-container">
+        <div id="hidden-jungle-contents">
             <img src="patch.png" class="patch-target" alt="Spectres Patch">
             <div class="sign-text">WELCOME TO THE JUNGLE</div>
             <button id="entry-arrow" onclick="igniteVibe()">➡️</button>
         </div>
+
+        <div id="black-shroud-wall"></div>
     </div>
     <div id="error-msg"></div>
 
@@ -336,25 +295,26 @@
     </div>
 
     <script>
-        const overlay = document.getElementById('torch-overlay');
+        const shroud = document.getElementById('black-shroud-wall');
         const promptText = document.getElementById('instruction-prompt');
+        const gatekeeperStage = document.getElementById('gatekeeper-stage');
         const mainInvite = document.getElementById('main-invite');
         const popup = document.getElementById('custom-popup');
         let torchDiscovered = false;
 
-        // Forced Absolute Blackout Override
-        overlay.style.backgroundColor = "#000000";
-        overlay.style.backgroundImage = "none";
-
-        function updateTorch(e) {
+        function updateFlashlight(e) {
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
-            overlay.style.background = `radial-gradient(circle 105px at ${clientX}px ${clientY}px, transparent 100%, #000000 100%)`;
+            // Punch a highly specific, absolute mask path right through the shroud canvas
+            const maskStyle = `radial-gradient(circle 100px at ${clientX}px ${clientY}px, transparent 100%, #000000 100%)`;
+            shroud.style.webkitMaskImage = maskStyle;
+            shroud.style.maskImage = maskStyle;
 
             const screenWidth = window.innerWidth;
             const screenHeight = window.innerHeight;
             
+            // Sweep grid calculation validation zone
             if (!torchDiscovered && 
                 clientX > (screenWidth * 0.25) && clientX < (screenWidth * 0.75) &&
                 clientY > (screenHeight * 0.25) && clientY < (screenHeight * 0.75)) {
@@ -365,10 +325,12 @@
             }
         }
 
-        overlay.addEventListener('mousemove', updateTorch);
-        overlay.addEventListener('touchmove', updateTorch, { passive: true });
+        // Dedicated event streaming parameters
+        shroud.addEventListener('mousemove', updateFlashlight);
+        shroud.addEventListener('touchmove', updateFlashlight, { passive: true });
 
         function igniteVibe() {
+            // Absolute validation check
             if (!torchDiscovered) {
                 document.getElementById('error-msg').innerText = "SYSTEM: SECTOR NOT YET RECONNOITERED.";
                 setTimeout(() => { document.getElementById('error-msg').innerText = ""; }, 2000);
@@ -376,15 +338,13 @@
             }
 
             const audio = document.getElementById('bgMusic');
-            audio.play().catch(err => console.log("Audio pipeline loaded."));
+            audio.play().catch(err => console.log("Audio online."));
 
-            // Safely clear torch layer assets and bring layout online simultaneously
-            overlay.style.display = "none";
+            // Destroy the curtain stage completely, bringing the main invite to light
+            gatekeeperStage.style.display = "none";
             mainInvite.style.display = "flex";
-            setTimeout(() => { mainInvite.style.opacity = "1"; }, 50);
         }
 
-        // Custom Popup Logic Controllers
         function showPopup() { popup.style.display = "block"; }
         function closePopup() { popup.style.display = "none"; }
     </script>
