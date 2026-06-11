@@ -1,403 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta property="og:type" content="website">
-<meta property="og:url" content="https://pravalfootballaddict-netizen.github.io/party-invite/">
-
-<meta property="og:image" content="https://pravalfootballaddict-netizen.github.io/party-invite/invite_animation.gif">
-<meta property="og:image:type" content="image/gif">
-<meta property="og:image:width" content="500">
-<meta property="og:image:height" content="500">
-
-<meta property="og:title" content="&#x200B;">
-<meta property="og:description" content="&#x200B;">
-
-    <meta property="og:title" content=" ">
-    <meta property="og:description" content=" ">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <meta property="og:title" content="GLOW IN THE WILD">
-    <meta property="og:description" content="[SECURE ACCESS] A Loving Farewell to Spectre One.">
-    <meta property="og:image" content="https://operation-happiness.com/invite_animation.gif">
-    <meta property="og:url" content="https://operation-happiness.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&#x200B;</title>
+
     <meta property="og:type" content="website">
-
-    <title>Glow in the Wild - Spectre One Farewell</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <meta property="og:url" content="https://pravalfootballaddict-netizen.github.io/party-invite/">
     
+    <meta property="og:image" content="https://pravalfootballaddict-netizen.github.io/party-invite/sticker_patch.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="500">
+    <meta property="og:image:height" content="500">
+
+    <meta property="og:title" content="&#x200B;">
+    <meta property="og:description" content="&#x200B;">
+
     <style>
-        :root {
-            --neon-green: #39ff14;
-            --neon-yellow: #ffff00;
-            --neon-orange: #ff6700;
-            --bg-dark: #000000;
-            --font-display: 'Bebas Neue', cursive;
-            --font-sans: 'Montserrat', sans-serif;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body, html {
+        html, body {
+            margin: 0;
+            padding: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--bg-dark);
-            font-family: var(--font-sans);
-            color: #ffffff;
+            background-color: #050505;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             overflow: hidden;
-            position: relative;
-        }
-
-        /* --- SUBTLE FLOATING AUDIO CONTROLLER (HIDDEN BY DEFAULT) --- */
-        #audio-toggle-widget {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.2); /* Subdued grey border instead of bright green */
-            color: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            display: none; /* FORCED HIDDEN UNTIL INVITATION UNLOCKS */
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
             cursor: pointer;
-            z-index: 2000;
-            transition: all 0.2s ease;
-            /* Box-shadow glow effect completely removed for a minimalist aesthetic */
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- STAGE A: THE INTERACTIVE GATEKEEPER AREA --- */
-        #gatekeeper-stage {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #000000;
-            z-index: 500;
-        }
-
-        #instruction-prompt {
-            position: absolute;
-            top: 12%;
-            width: 100%;
-            text-align: center;
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            color: #ffffff;
-            text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(255,255,255,0.8);
-            pointer-events: none;
-            z-index: 700;
-            padding: 0 10px;
-        }
-
-        #hidden-jungle-contents {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            width: 300px;
-            z-index: 510;
-        }
-
-        .patch-target {
-            width: 210px;
-            height: auto;
-            margin-bottom: 20px;
-        }
-
-        .sign-text {
-            font-family: var(--font-display);
-            font-size: 2.5rem;
-            color: var(--neon-orange);
-            letter-spacing: 3px;
-            text-shadow: 0 0 5px var(--neon-orange);
-            line-height: 1;
-        }
-
-        #black-shroud-wall {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #000000;
-            z-index: 520;
-            touch-action: none;
-            -webkit-mask-image: radial-gradient(circle 100px at -200px -200px, transparent 100%, #000000 100%);
-            mask-image: radial-gradient(circle 100px at -200px -200px, transparent 100%, #000000 100%);
-        }
-
-        /* --- STAGE B: MAIN INVITATION SCREEN --- */
-        #main-invite {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('wild.jpeg');
-            background-size: cover;
-            background-position: center;
-            z-index: 10;
-            display: none; 
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            padding: 45px 20px;
-        }
-
-        .hero-headers { text-align: center; margin-top: 25px; }
-        .title-neon {
-            font-family: var(--font-display);
-            font-size: 4.2rem;
-            color: var(--neon-green);
-            text-shadow: 0 0 4px var(--neon-green);
-            line-height: 0.9;
-        }
-        .subtitle-neon {
-            font-family: var(--font-sans);
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--neon-yellow);
-            letter-spacing: 2px;
-            margin-top: 8px;
-            text-shadow: 0 0 3px var(--neon-yellow);
-        }
-
-        .details-matrix {
-            width: 100%;
-            max-width: 360px;
-            background: rgba(0, 0, 0, 0.85);
-            border: 1px solid rgba(57, 255, 20, 0.25);
-            padding: 25px 20px;
-            border-radius: 14px;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        .matrix-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-        .matrix-row:last-child { border-bottom: none; }
-        .label-group { text-align: left; }
-        .label-title { font-size: 0.65rem; font-weight: bold; color: var(--neon-orange); letter-spacing: 1.5px; text-transform: uppercase; }
-        .label-value { font-size: 0.95rem; font-weight: 400; color: #ffffff; margin-top: 3px; }
-
-        .mini-btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--neon-yellow);
-            color: var(--neon-yellow);
-            width: 44px;
-            height: 44px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 0 8px rgba(255, 255, 0, 0.15);
-            font-size: 1.1rem;
-        }
-        .mini-btn:hover { background: var(--neon-yellow); color: #000000; }
-
-        .cal-tile { text-align: center; line-height: 1.1; font-weight: bold; font-size: 0.85rem; }
-        .cal-tile span { display: block; font-size: 0.5rem; color: var(--neon-orange); }
-
-        /* --- CUSTOM COMPLIMENT POPUP --- */
-        #custom-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 85%;
-            max-width: 320px;
-            background: #0a140a;
-            border: 2px solid var(--neon-green);
-            padding: 25px 20px;
+        .animation-container {
+            max-width: 95%;
+            max-height: 90vh;
             border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
-            z-index: 3000;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+            transition: transform 0.15s ease-in-out;
+            user-select: none;
+            -webkit-user-drag: none;
         }
-        #custom-popup p { font-size: 0.95rem; line-height: 1.4; color: #ffffff; margin-bottom: 20px; }
-        #custom-popup button { background: var(--neon-green); color: #000000; border: none; padding: 8px 25px; font-family: var(--font-display); font-size: 1.2rem; border-radius: 6px; cursor: pointer; }
+
+        body:active .animation-container {
+            transform: scale(0.97);
+        }
     </style>
 </head>
-<body>
+<body onclick="window.location.href='invite.html';">
 
-    <audio id="bgMusic" loop src="pedroo.mp3" muted></audio>
+    <img src="invite_animation.gif" alt="Spectre" class="animation-container">
 
-    <button id="audio-toggle-widget" onclick="toggleAudioState()">🔇</button>
-
-    <div id="custom-popup">
-        <p>Someone as classy as you needs no dress code!</p>
-        <button onclick="closePopup()">DISMISS</button>
-    </div>
-
-    <div id="gatekeeper-stage">
-        <div id="instruction-prompt">The Jungle is Dark, To Illuminate the area, Drag your finger to use your torch...</div>
-        
-        <div id="hidden-jungle-contents">
-            <img src="patch.png" class="patch-target" alt="Spectres Patch">
-            <div class="sign-text">WELCOME TO THE JUNGLE</div>
-        </div>
-
-        <div id="black-shroud-wall"></div>
-    </div>
-
-    <div id="main-invite">
-        <div class="hero-headers">
-            <h1 class="title-neon">GLOW IN THE WILD</h1>
-            <div class="subtitle-neon">Join us for an evening of celebration, laughter and a farewell toast to 'Spectre One' & the coolest COW</div>
-        </div>
-
-        <div class="details-matrix">
-            <div class="matrix-row">
-                <div class="label-group">
-                    <div class="label-title">Where</div>
-                    <div class="label-value">Officers Mess, AFS Kalpi</div>
-                </div>
-                <a href="https://maps.app.goo.gl/n6G44bKvQP533tvL7?g_st=iw" target="_blank" class="mini-btn">📍</a>
-            </div>
-
-            <div class="matrix-row">
-                <div class="label-group">
-                    <div class="label-title">When</div>
-                    <div class="label-value">12 Jun 2026 @ 2000 Hrs</div>
-                </div>
-                <button class="mini-btn" onclick="window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=Glow+In+The+Wild%3A+Spectre+One+Farewell&dates=20260612T143000Z/20260612T183000Z&details=Glow+in+the+Wild+Farewell+Party+Protocol+Active.&location=Officers+Mess%2C+AFS+Kalpi')">
-                    <div class="cal-tile"><span>JUN</span>12</div>
-                </button>
-            </div>
-
-            <div class="matrix-row">
-                <div class="label-group">
-                    <div class="label-title">Dress Code</div>
-                    <div class="label-value">Comfortable</div>
-                </div>
-                <button class="mini-btn" style="border-color: var(--neon-green); color: var(--neon-green);" onclick="showPopup()">✨</button>
-            </div>
-        </div>
-
-        <div style="font-size: 0.6rem; color: rgba(255,255,255,0.3); letter-spacing: 2px;">LET'S GET WILD TONIGHT</div>
-    </div>
-
-    <script>
-        const shroud = document.getElementById('black-shroud-wall');
-        const promptText = document.getElementById('instruction-prompt');
-        const gatekeeperStage = document.getElementById('gatekeeper-stage');
-        const mainInvite = document.getElementById('main-invite');
-        const audioTrack = document.getElementById('bgMusic');
-        const audioWidget = document.getElementById('audio-toggle-widget');
-
-        let torchTrackingActive = true;
-        let delayTimer = null; 
-        let holdsTarget = false; 
-
-        let isAudioMuted = true;
-
-        function toggleAudioState() {
-            if (isAudioMuted) {
-                audioTrack.muted = false;
-                audioTrack.play().catch(err => console.log("Audio kickstart authorized."));
-                audioWidget.innerText = "🔊";
-                audioWidget.style.borderColor = "rgba(255, 255, 255, 0.5)";
-                audioWidget.style.color = "#ffffff";
-                isAudioMuted = false;
-            } else {
-                audioTrack.muted = true;
-                audioWidget.innerText = "🔇";
-                audioWidget.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                audioWidget.style.color = "rgba(255, 255, 255, 0.6)";
-                isAudioMuted = true;
-            }
-        }
-
-        function scanTargetVectors(e) {
-            if (!torchTrackingActive) return;
-
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
-            const maskStyle = `radial-gradient(circle 105px at ${clientX}px ${clientY}px, transparent 100%, #000000 100%)`;
-            shroud.style.webkitMaskImage = maskStyle;
-            shroud.style.maskImage = maskStyle;
-
-            const screenWidth = window.innerWidth;
-            const screenHeight = window.innerHeight;
-            
-            const insideTargetZone = (clientX > (screenWidth * 0.35) && clientX < (screenWidth * 0.65) &&
-                                      clientY > (screenHeight * 0.35) && clientY < (screenHeight * 0.65));
-
-            if (insideTargetZone) {
-                if (!holdsTarget) {
-                    holdsTarget = true;
-                    promptText.innerText = "Welcome to the Jungle! You have found the spectre spirit... Hold the torch to reveal the invite";
-                    promptText.style.color = "var(--neon-orange)";
-                    
-                    // The 5-second continuous hover challenge threshold
-                    delayTimer = setTimeout(() => {
-                        igniteAutoExposure(clientX, clientY);
-                    }, 4500); 
-                }
-            } else {
-                if (holdsTarget) {
-                    holdsTarget = false;
-                    clearTimeout(delayTimer); 
-                    promptText.innerText = "Look for the Spectre Spirit...";
-                    promptText.style.color = "#ffffff";
-                }
-            }
-        }
-
-        shroud.addEventListener('mousemove', scanTargetVectors);
-        shroud.addEventListener('touchmove', scanTargetVectors, { passive: true });
-
-        function igniteAutoExposure(centerX, centerY) {
-            torchTrackingActive = false; 
-            promptText.style.display = "none";
-
-                            // Keep the track strictly muted by default to honor browser security and user preference
-                audioTrack.muted = true; 
-                audioTrack.play().catch(e => console.log("Audio track queued in background."));
-        
-                // Keep the state machine and the button icon perfectly synced to MUTED
-                isAudioMuted = true;
-                audioWidget.innerText = "🔇";
-
-            let flashRadius = 115;
-            const detonationInterval = setInterval(() => {
-                flashRadius += 45; 
-                const expandedStyle = `radial-gradient(circle ${flashRadius}px at ${centerX}px ${centerY}px, transparent 100%, #000000 100%)`;
-                shroud.style.webkitMaskImage = expandedStyle;
-                shroud.style.maskImage = expandedStyle;
-
-                if (flashRadius > Math.max(window.innerWidth, window.innerHeight) * 1.5) {
-                    clearInterval(detonationInterval);
-                    
-                    // Simultaneously close down the dark room, expose the invitation, and reveal the subtle mute icon
-                    gatekeeperStage.style.display = "none";
-                    mainInvite.style.display = "flex";
-                    audioWidget.style.display = "flex"; 
-                }
-            }, 16);
-        }
-
-        function showPopup() { document.getElementById('custom-popup').style.display = "block"; }
-        function closePopup() { document.getElementById('custom-popup').style.display = "none"; }
-    </script>
 </body>
 </html>
