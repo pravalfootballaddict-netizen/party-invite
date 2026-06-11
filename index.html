@@ -235,7 +235,7 @@
     </div>
 
     <div id="gatekeeper-stage">
-        <div id="instruction-prompt">Drag finger to use your torch...</div>
+        <div id="instruction-prompt">The Jungle is Dark, To Illuminate the area, Drag your finger to use your torch...</div>
         
         <div id="hidden-jungle-contents">
             <img src="patch.png" class="patch-target" alt="Spectres Patch">
@@ -332,19 +332,19 @@
             if (insideTargetZone) {
                 if (!holdsTarget) {
                     holdsTarget = true;
-                    promptText.innerText = "Target locked. Stand by for reconnaissance...";
+                    promptText.innerText = "Welcome to the Jungle! You have found the spectre spirit... Hold the torch to reveal the invite";
                     promptText.style.color = "var(--neon-orange)";
                     
                     // The 5-second continuous hover challenge threshold
                     delayTimer = setTimeout(() => {
                         igniteAutoExposure(clientX, clientY);
-                    }, 5000); 
+                    }, 2500); 
                 }
             } else {
                 if (holdsTarget) {
                     holdsTarget = false;
                     clearTimeout(delayTimer); 
-                    promptText.innerText = "Signal lost. Find the target...";
+                    promptText.innerText = "Look for the Spectre Spirit...";
                     promptText.style.color = "#ffffff";
                 }
             }
